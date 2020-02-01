@@ -10,5 +10,5 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     Rigidbody2D _rocketBody;
 
-
+    Transform position;
 }

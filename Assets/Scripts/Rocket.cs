@@ -8,6 +8,7 @@ public class Rocket : MonoBehaviour
     GameState _state;
 
     [SerializeField]
+    Rigidbody2D rocketBody;
     Dictionary<States,System.Action> stateChangeActions = new Dictionary<States, System.Action>();
 
     void Start()
@@ -26,7 +27,7 @@ public class Rocket : MonoBehaviour
 
     void StartFalling()
     {
-
+        
     }
 
     void Update(){
