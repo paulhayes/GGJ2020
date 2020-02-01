@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Ship : MonoBehaviour
 {
+    [SerializeField] LayerMask _playerMask;
+
     [SerializeField]
     RobotPlayerData playerData;
 
@@ -27,5 +29,18 @@ public class Ship : MonoBehaviour
             playerData.score += part.values;
             part.gameObject.SetActive(false);
         }
+    }
+
+    public void AddScore(Vector3 scoreVector)
+    {
+        playerData.score += scoreVector;
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (_playerMask != (_playerMask | 1 << collision.gameObject.layer))
+            return;
+
+        RobotCharacter._instance.BankItems(this);
     }
 }

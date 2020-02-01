@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class RobotCharacter : MonoBehaviour
 {
+    public static RobotCharacter _instance;
 
-    [SerializeField]
-    Rigidbody2D _body;
+    [SerializeField] float _moveSpeed;
 
-    [SerializeField]
-    Ship _ship;
+    [SerializeField] Rigidbody2D _body;
 
-    [SerializeField]
-    Transform startPosition;
+    [SerializeField] Ship _ship;
+
+    [SerializeField] Transform _startPosition;
 
     bool _returnToShip = false;
+
+    Item[] _itemSlots;
+    int _itemsHeld;
 
     public void ReturnToShip(){
         _returnToShip = true;
@@ -22,7 +25,17 @@ public class RobotCharacter : MonoBehaviour
 
     public void Reset(){
         _returnToShip = false;
-        transform.position = startPosition.position;
+        transform.position = _startPosition.position;
+    }
+
+    void Awake()
+    {
+        _itemSlots = new Item[3];
+
+        if (_instance == null)
+            _instance = this;
+        else
+            Destroy(this.gameObject);
     }
 
     void Start()
@@ -32,15 +45,61 @@ public class RobotCharacter : MonoBehaviour
 
     void FixedUpdate()
     {
+        Vector3 vel = Vector3.zero;
 
-
-        var dx = Input.GetAxis("Horizontal");
-        var dy = Input.GetAxis("Vertical");
-        //transform.position += 
-        _body.velocity = new Vector3(dx,dy,0);
-
-        if(_returnToShip){
-            _body.velocity = (_ship.transform.position - transform.position ).normalized;
+        if (_returnToShip){
+            if (Vector2.Distance(transform.position, _ship.transform.position) > 0.1f)
+                vel = (_ship.transform.position - transform.position).normalized;
         }
+        else
+        {
+            var dx = Input.GetAxisRaw("Horizontal");
+            var dy = Input.GetAxisRaw("Vertical");
+
+            vel = new Vector3(dx, dy, 0) * _moveSpeed;
+        }
+
+        _body.velocity = vel;
+    }
+
+    void LateUpdate()
+    {
+        foreach (var item in _itemSlots)
+        {
+            if (item == null)
+                break;
+
+            item.transform.position = transform.position + (Vector3)item._dragOffset;
+        }
+    }
+
+    public void Pickup(Item item)
+    {
+        if (_itemsHeld >= _itemSlots.Length)
+            return;
+
+        item._pickedUp = true;
+        item._dragOffset = item.transform.position-transform.position;
+
+        _itemSlots[_itemsHeld] = item;
+        _itemsHeld++;
+    }
+
+    public void BankItems(Ship ship)
+    {
+        for (int i = 0; i < _itemSlots.Length; i++)
+        {
+            Item item = _itemSlots[i];
+            _itemSlots[i] = null;
+
+            if (item == null)
+                continue;
+
+            ship.AddScore(item._part.values);
+
+            Destroy(item.gameObject);
+        }
+
+        _itemsHeld = 0;
     }
 }

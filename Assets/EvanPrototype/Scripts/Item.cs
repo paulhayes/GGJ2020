@@ -8,29 +8,19 @@ public class Item : MonoBehaviour
     public bool _pickedUp = false;
     public Part _part;
 
+    public Vector2 _dragOffset;
+
     [SerializeField] PartType _partType;
 
     [SerializeField] LayerMask _canCollect;
 
     [SerializeField] Rigidbody2D _rb;
-    [SerializeField] TextMeshPro _scoreText;
-
-    void Awake()
-    {
-
-        _scoreText.text = _part.values[(int)_partType].ToString("0.0");
-    }
+    //[SerializeField] TextMeshPro _scoreText;
 
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        transform.localScale = Vector2.one * _part.values[(int)_partType];
     }
 
     public void Move(Vector2 vel)
@@ -44,6 +34,6 @@ public class Item : MonoBehaviour
             _canCollect != (_canCollect | 1 << collision.gameObject.layer))
             return;
 
-        Player._instance.Pickup(this);
+        RobotCharacter._instance.Pickup(this);
     }
 }

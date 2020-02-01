@@ -34,6 +34,6 @@ public class Rocket : MonoBehaviour
         if (_playerMask != (_playerMask | 1 << collision.gameObject.layer))
             return;
 
-        Player._instance.BankItems(this);
+        //RobotCharacter._instance.BankItems(this);
     }
 }
