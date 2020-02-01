@@ -72,8 +72,10 @@ public class LevelSetup : MonoBehaviour
 
             var xJitter = Random.Range(-_craterPositionJitter.x, _craterPositionJitter.x);
             var yJitter = Random.Range(-_craterPositionJitter.y, _craterPositionJitter.y);
-            var x = _levelBoundary.x + _levelBoundary.width * i % gridWidth / gridWidth + xJitter + _craterPrefab.Size.x / 2;
-            var y = _levelBoundary.y - _levelBoundary.height * i / gridWidth / gridHeight + yJitter + _craterPrefab.Size.y / 2;
+            var relativeX = (float)i % gridWidth / gridWidth;
+            var relativeY = (float)i / gridWidth / gridHeight + yJitter;
+            var x = _levelBoundary.x + _levelBoundary.width * relativeX + xJitter + _craterPrefab.Size.x / 2;
+            var y = _levelBoundary.y - _levelBoundary.height * relativeY + _craterPrefab.Size.y / 2;
             var crater = Instantiate(_craterPrefab, new Vector3(x, y, 0), Quaternion.identity);
         }
     }
