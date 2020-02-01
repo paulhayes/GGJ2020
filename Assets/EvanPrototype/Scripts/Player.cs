@@ -9,10 +9,11 @@ public class Player : MonoBehaviour
 
     [SerializeField] float _moveSpeed;
     [SerializeField] Rigidbody2D _rb;
+    [SerializeField] Camera _cam;
 
     Item[] _itemSlots;
     int _itemsHeld;
-
+    bool _canMove = true;
     void Awake()
     {
         _itemSlots = new Item[3];
@@ -25,7 +26,15 @@ public class Player : MonoBehaviour
     
     void Update()
     {
+        Vector3 camPos;
 
+        if (_canMove)
+            camPos = transform.position;
+        else
+            camPos = Vector3.zero;
+
+        camPos.z = _cam.transform.position.z;
+        _cam.transform.position = camPos;
     }
 
     void FixedUpdate()
@@ -62,9 +71,20 @@ public class Player : MonoBehaviour
         _itemsHeld = 0;
     }
 
+    public void MoveEnabled (bool canMove)
+    {
+        _canMove = canMove;
+    }
+
     void Move (float x, float y)
     {
-        var vel = new Vector2(x, y).normalized * _moveSpeed;
+        Vector2 vel;
+
+        if (_canMove)
+            vel = new Vector2(x, y).normalized * _moveSpeed;
+        else
+            vel = Vector2.zero;
+
         _rb.velocity = vel;
 
         foreach (var item in _itemSlots)
