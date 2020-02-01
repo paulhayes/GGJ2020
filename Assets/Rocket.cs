@@ -3,41 +3,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rocket : MonoBehaviour
+namespace Jamey
 {
-    [SerializeField] private Rigidbody2D _rigidbody2D;
-    [SerializeField] private Camera _camera;
-    [SerializeField] private float _cameraZoomOutScale;
-
-    private float _initialYPosition;
-
-    private void Start()
+    public class Rocket : MonoBehaviour
     {
-        _initialYPosition = transform.position.y;
-    }
+        [SerializeField] private Rigidbody2D _rigidbody2D;
+        [SerializeField] private Camera _camera;
+        [SerializeField] private float _cameraZoomOutScale;
 
-    private void Update()
-    {
-        UpdateRocketPosition();
-        UpdateCameraPosition();
-    }
+        private float _initialYPosition;
 
-    private void UpdateRocketPosition()
-    {
-        if (Input.GetKey(KeyCode.UpArrow))
+        private void Start()
         {
-            _rigidbody2D.AddRelativeForce(Vector2.up * 0.001f, ForceMode2D.Impulse);
+            _initialYPosition = transform.position.y;
         }
-    }
 
-    private void UpdateCameraPosition()
-    {
-        const float offsetToAllowRocketToFitInShot = -1f;
-        var cameraTransform = _camera.transform;
-        var cameraPosition = cameraTransform.position;
-        var cameraZPosition = offsetToAllowRocketToFitInShot + (transform.position.y - _initialYPosition) * -_cameraZoomOutScale;
-        cameraZPosition = Mathf.Min(cameraZPosition, 3.5f); //TODO: What is the significance of 3.5?
-        cameraPosition = new Vector3(cameraPosition.x, cameraPosition.y, cameraZPosition);
-        cameraTransform.position = cameraPosition;
+        private void Update()
+        {
+            UpdateRocketPosition();
+            UpdateCameraPosition();
+        }
+
+        private void UpdateRocketPosition()
+        {
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                _rigidbody2D.AddRelativeForce(Vector2.up * 0.001f, ForceMode2D.Impulse);
+            }
+        }
+
+        private void UpdateCameraPosition()
+        {
+            const float offsetToAllowRocketToFitInShot = -1f;
+            var cameraTransform = _camera.transform;
+            var cameraPosition = cameraTransform.position;
+            var cameraZPosition = offsetToAllowRocketToFitInShot + (transform.position.y - _initialYPosition) * -_cameraZoomOutScale;
+            cameraZPosition = Mathf.Min(cameraZPosition, 3.5f); //TODO: What is the significance of 3.5?
+            cameraPosition = new Vector3(cameraPosition.x, cameraPosition.y, cameraZPosition);
+            cameraTransform.position = cameraPosition;
+        }
     }
 }
