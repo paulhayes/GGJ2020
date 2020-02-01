@@ -24,7 +24,7 @@ public class GameState : ScriptableObject
 
     public void Reset()
     {
-        State = States.Falling;
+        State = States.Scavenge;
     }
 
     public void Stopped()

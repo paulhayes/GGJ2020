@@ -669,7 +669,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 580879383}
+  - component: {fileID: 580879384}
   - component: {fileID: 580879382}
+  - component: {fileID: 580879385}
   m_Layer: 0
   m_Name: Main
   m_TagString: Untagged
@@ -690,6 +692,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: 44fa708b4df70d34b84b59f422ac7b68, type: 2}
+  _gameState: {fileID: 11400000, guid: bff33d099c8739d47b3447d8e47f359e, type: 2}
   robot: {fileID: 1429183513}
 --- !u!4 &580879383
 Transform:
@@ -705,6 +708,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &580879384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580879381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54f68a06ca5193e4091f14a14a21d261, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameState: {fileID: 11400000, guid: bff33d099c8739d47b3447d8e47f359e, type: 2}
+--- !u!114 &580879385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580879381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c98c492a605434940995b052e4ec4e64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameState: {fileID: 11400000, guid: bff33d099c8739d47b3447d8e47f359e, type: 2}
+  robot: {fileID: 1429183513}
 --- !u!1 &654553329
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,18 +14,20 @@ public class RobotCharacter : MonoBehaviour
 
     [SerializeField] Transform _startPosition;
 
+    bool _inputEnabled = true;
     bool _returnToShip = false;
 
     Item[] _itemSlots;
     int _itemsHeld;
 
-    public void ReturnToShip(){
+    public void ReturnToShip () {
         _returnToShip = true;
+        _inputEnabled = false;
     }
 
-    public void Reset(){
-        _returnToShip = false;
-        transform.position = _startPosition.position;
+    public bool IsReturningToShip ()
+    {
+        return _returnToShip;
     }
 
     void Awake()
@@ -35,7 +37,7 @@ public class RobotCharacter : MonoBehaviour
         if (_instance == null)
             _instance = this;
         else
-            Destroy(this.gameObject);
+            Destroy(gameObject);
     }
 
     void Start()
@@ -43,15 +45,25 @@ public class RobotCharacter : MonoBehaviour
         Reset();
     }
 
+    public void Reset()
+    {
+        _returnToShip = false;
+        _inputEnabled = true;
+        transform.position = _startPosition.position;
+    }
+
     void FixedUpdate()
     {
         Vector3 vel = Vector3.zero;
 
-        if (_returnToShip){
+        if (_returnToShip)
+        {
             if (Vector2.Distance(transform.position, _ship.transform.position) > 0.1f)
                 vel = (_ship.transform.position - transform.position).normalized;
+            else
+                _returnToShip = false;
         }
-        else
+        else if (_inputEnabled)
         {
             var dx = Input.GetAxisRaw("Horizontal");
             var dy = Input.GetAxisRaw("Vertical");

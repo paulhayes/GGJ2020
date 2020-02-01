@@ -7,13 +7,8 @@ public class ScavengeMain : MonoBehaviour
     [SerializeField]
     RobotPlayerData playerData;
 
-    enum GameState {
-        Countdown,
-        Finsih
-    } 
-
+    [SerializeField]
     GameState _gameState;
-
 
     [SerializeField]
     RobotCharacter robot;
@@ -23,32 +18,25 @@ public class ScavengeMain : MonoBehaviour
     {
         Physics2D.gravity = Vector2.zero;
         playerData.Reset();
-        _gameState = GameState.Countdown;
+        _gameState.State = States.Scavenge;
     }
 
     void Update(){
-        if(_gameState == GameState.Countdown)
-        {
+        Debug.Log(_gameState.State);
 
+        if (_gameState.State == States.Scavenge)
+        {
             playerData.timeRemaining -= Time.deltaTime;
-            if(playerData.timeRemaining<0){
-                playerData.timeRemaining=0;
+            if (playerData.timeRemaining < 0)
+            {
+                playerData.timeRemaining = 0;
                 Finish();
             }
-
         }
-        else if(_gameState == GameState.Finsih)
-        {            
-           
-        }
-
     }
 
     void Finish()
     {
-        _gameState = GameState.Finsih;
-        robot.ReturnToShip();
-        
+        _gameState.State = States.Countdown;
     }
-    
 }
