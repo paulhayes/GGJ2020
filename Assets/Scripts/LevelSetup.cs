@@ -59,8 +59,7 @@ public class LevelSetup : MonoBehaviour
         {
             flatCraterGrid[i] = true;
         }
-        flatCraterGrid.Reverse(); //This reverse prevents the high odds of one of the items ending up in the first position.
-        flatCraterGrid.Sort((_1, _2) => Random.Range(-1, 1));
+        Shuffle(flatCraterGrid);
         
         //Create craters in final positions.
         for(var i = 0; i < totalSize; ++i)
@@ -106,8 +105,7 @@ public class LevelSetup : MonoBehaviour
             Enumerable.Repeat(LevelObject.BodyPart, _maxBodyParts),
             Enumerable.Repeat(LevelObject.None, totalSize - totalObjects))
             .ToList();
-        flatGrid.Reverse(); //This reverse prevents the high odds of one of the items ending up in the first position.
-        flatGrid.Sort((_1, _2) => Random.Range(-1, 1));
+        Shuffle(flatGrid);
         
         //Create objects in final positions.
         for(var i = 0; i < totalSize; ++i)
@@ -143,5 +141,19 @@ public class LevelSetup : MonoBehaviour
     public static IEnumerable<T> Concatenate<T>(params IEnumerable<T>[] objects)
     {
         return objects.SelectMany(i => i);
+    }
+    
+    //https://forum.unity.com/threads/clever-way-to-shuffle-a-list-t-in-one-line-of-c-code.241052/
+    public static void Shuffle<T>(IList<T> list)
+    {
+        var count = list.Count;
+        var last = count - 1;
+        for (var i = 0; i < last; ++i)
+        {
+            var r = Random.Range(i, count);
+            var tmp = list[i];
+            list[i] = list[r];
+            list[r] = tmp;
+        }
     }
 }
