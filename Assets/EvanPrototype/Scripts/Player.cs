@@ -10,9 +10,13 @@ public class Player : MonoBehaviour
     [SerializeField] float _moveSpeed;
     [SerializeField] Rigidbody2D _rb;
 
+    [SerializeField] float _itemTrailSpacing;
+
+    Vector2 _lastVelocity;
+
     Item[] _itemSlots;
     int _itemsHeld;
-
+    bool _canMove = true;
     void Awake()
     {
         _itemSlots = new Item[3];
@@ -38,24 +42,44 @@ public class Player : MonoBehaviour
         if (_itemsHeld >= _itemSlots.Length)
             return;
 
+        item._pickedUp = true;
+
         _itemSlots[_itemsHeld] = item;
         _itemsHeld++;
     }
 
-    public void BankItems ()
+    public void BankItems (Rocket rocket)
     {
-        foreach (var item in _itemSlots)
+        for (int i = 0; i < _itemSlots.Length; i++)
         {
+            Item item = _itemSlots[i];
+            _itemSlots[i] = null;
+
             if (item == null)
-                break;
+                continue;
+
+            rocket.AddScore(item._part.values);
 
             Destroy(item.gameObject);
         }
+
+        _itemsHeld = 0;
+    }
+
+    public void MoveEnabled (bool canMove)
+    {
+        _canMove = canMove;
     }
 
     void Move (float x, float y)
     {
-        var vel = new Vector2(x, y).normalized * _moveSpeed;
+        Vector2 vel;
+
+        if (_canMove)
+            vel = new Vector2(x, y).normalized * _moveSpeed;
+        else
+            vel = Vector2.zero;
+
         _rb.velocity = vel;
 
         foreach (var item in _itemSlots)
@@ -65,5 +89,7 @@ public class Player : MonoBehaviour
 
             item.Move(vel);
         }
+
+        _lastVelocity = vel;
     }
 }

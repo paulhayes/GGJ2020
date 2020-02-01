@@ -5,16 +5,15 @@ using TMPro;
 
 public class Item : MonoBehaviour
 {
-    [SerializeField] Part _part;
+    public bool _pickedUp = false;
+    public Part _part;
+
     [SerializeField] PartType _partType;
 
     [SerializeField] LayerMask _canCollect;
 
     [SerializeField] Rigidbody2D _rb;
     [SerializeField] TextMeshPro _scoreText;
-
-    bool _pickedUp = false;
-
 
     void Awake()
     {
@@ -46,7 +45,5 @@ public class Item : MonoBehaviour
             return;
 
         Player._instance.Pickup(this);
-
-        _pickedUp = true;
     }
 }
