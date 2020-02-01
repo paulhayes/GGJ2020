@@ -9,7 +9,10 @@ public class Player : MonoBehaviour
 
     [SerializeField] float _moveSpeed;
     [SerializeField] Rigidbody2D _rb;
-    [SerializeField] Camera _cam;
+
+    [SerializeField] float _itemTrailSpacing;
+
+    Vector2 _lastVelocity;
 
     Item[] _itemSlots;
     int _itemsHeld;
@@ -26,15 +29,7 @@ public class Player : MonoBehaviour
     
     void Update()
     {
-        Vector3 camPos;
 
-        if (_canMove)
-            camPos = transform.position;
-        else
-            camPos = Vector3.zero;
-
-        camPos.z = _cam.transform.position.z;
-        _cam.transform.position = camPos;
     }
 
     void FixedUpdate()
@@ -94,5 +89,7 @@ public class Player : MonoBehaviour
 
             item.Move(vel);
         }
+
+        _lastVelocity = vel;
     }
 }
