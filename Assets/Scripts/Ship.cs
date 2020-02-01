@@ -22,7 +22,7 @@ public class Ship : MonoBehaviour
         
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    /*void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("collision");
         Debug.Log( collision.gameObject );
@@ -31,7 +31,7 @@ public class Ship : MonoBehaviour
             playerData.score += part.values;
             part.gameObject.SetActive(false);
         }
-    }
+    }*/
 
     public void AddScore(Vector3 scoreVector)
     {
@@ -41,7 +41,7 @@ public class Ship : MonoBehaviour
             _source.PlayOneShot(_partBankedSfx);
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
         if (_playerMask != (_playerMask | 1 << collision.gameObject.layer))
             return;
