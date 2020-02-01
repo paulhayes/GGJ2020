@@ -1,10 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Item : MonoBehaviour
 {
-    [SerializeField] LayerMask CanCollect;
+    [SerializeField] Part _part;
+    [SerializeField] PartType _partType;
+
+    [SerializeField] LayerMask _canCollect;
+
+    [SerializeField] Rigidbody2D _rb;
+    [SerializeField] TextMeshPro _scoreText;
+
+    bool _pickedUp = false;
+
+
+    void Awake()
+    {
+
+        _scoreText.text = _part.values[(int)_partType].ToString("0.0");
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -18,11 +34,19 @@ public class Item : MonoBehaviour
         
     }
 
+    public void Move(Vector2 vel)
+    {
+        _rb.velocity = vel;
+    }
+
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (CanCollect != (CanCollect | 1 << collision.gameObject.layer))
+        if (_pickedUp ||
+            _canCollect != (_canCollect | 1 << collision.gameObject.layer))
             return;
 
-        Debug.Log("PICKUP :)");
+        Player._instance.Pickup(this);
+
+        _pickedUp = true;
     }
 }
