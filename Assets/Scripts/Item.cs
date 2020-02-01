@@ -5,12 +5,9 @@ using TMPro;
 
 public class Item : MonoBehaviour
 {
-    public bool _pickedUp = false;
-    public Part _part;
+    [HideInInspector] public bool _pickedUp = false;
 
-    public Vector2 _dragOffset;
-
-    [SerializeField] PartType _partType;
+    [HideInInspector] public Vector2 _dragOffset;
 
     [SerializeField] LayerMask _canCollect;
 
@@ -20,7 +17,7 @@ public class Item : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.localScale = Vector2.one;// * _part.values[(int)_partType];
+        transform.localScale = Vector2.one;
     }
 
     public void Move(Vector2 vel)

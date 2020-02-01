@@ -6,6 +6,8 @@ public class RobotCharacter : MonoBehaviour
 {
     public static RobotCharacter _instance;
 
+    [SerializeField] RobotPlayerData _playerData;
+
     [SerializeField] float _moveSpeed;
 
     [SerializeField] Rigidbody2D _body;
@@ -22,6 +24,9 @@ public class RobotCharacter : MonoBehaviour
 
     Item[] _itemSlots;
     int _itemsHeld;
+    int _maxItems = 3;
+
+    float _speedMultiplier = 1;
 
     public void ReturnToShip () {
         _returnToShip = true;
@@ -62,7 +67,7 @@ public class RobotCharacter : MonoBehaviour
         if (_returnToShip)
         {
             if (Vector2.Distance(transform.position, _ship.transform.position) > 0.1f)
-                vel = (_ship.transform.position - transform.position).normalized;
+                vel = (_ship.transform.position - transform.position).normalized * _moveSpeed;
             else
                 _returnToShip = false;
         }
@@ -71,7 +76,7 @@ public class RobotCharacter : MonoBehaviour
             var dx = Input.GetAxisRaw("Horizontal");
             var dy = Input.GetAxisRaw("Vertical");
 
-            vel = new Vector3(dx, dy, 0) * _moveSpeed;
+            vel = new Vector3(dx, dy, 0).normalized * _moveSpeed * _speedMultiplier;
         }
 
         _body.velocity = vel;
@@ -114,13 +119,52 @@ public class RobotCharacter : MonoBehaviour
             if (item == null)
                 continue;
 
-            scoreDelta += item._part.values;
+            if (item is PartItem)
+            {
+                PartItem partItem = (PartItem)item;
 
-            Destroy(item.gameObject);
+                scoreDelta += partItem._part.values;
+                Destroy(item.gameObject);
+
+                continue;
+            }
+
+            if (item is PowerUpItem)
+            {
+                PowerUpItem powUpItem = (PowerUpItem)item;
+
+                ApplyPowerUp(powUpItem);
+                Destroy(item.gameObject);
+            }
         }
 
         ship.AddScore(scoreDelta);
 
         _itemsHeld = 0;
+    }
+
+    void ApplyPowerUp(PowerUpItem powUpItem)
+    {
+        switch (powUpItem._type)
+        {
+            case PowerUpType.Speed:
+                _speedMultiplier+=0.5f;
+                break;
+            case PowerUpType.SlotIncrease:
+                _maxItems++;
+
+                Item[] newSlots = new Item[_maxItems];
+                for (int i = 0; i < _itemsHeld; i++)
+                {
+                    newSlots[i] = _itemSlots[i];
+                }
+
+                _itemSlots = newSlots;
+
+                break;
+            case PowerUpType.BatteryIncrease:
+                _playerData.timeRemaining = Mathf.Clamp((_playerData.timeRemaining + _playerData.levelDuration / 3f), 0, _playerData.levelDuration);
+                break;
+        }
     }
 }

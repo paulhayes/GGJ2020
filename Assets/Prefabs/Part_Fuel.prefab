@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 140943433625743835}
   - component: {fileID: 140943433625743834}
   - component: {fileID: 140943433625743814}
-  - component: {fileID: 1701904231}
+  - component: {fileID: 5335678186631395646}
   - component: {fileID: -2754767672040381903}
   m_Layer: 0
   m_Name: Part_Fuel
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -75004765
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 0.990566, g: 0.22895159, b: 0.22895159, a: 1}
@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   values: {x: 1, y: 0, z: 0}
---- !u!114 &1701904231
+--- !u!114 &5335678186631395646
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -162,17 +162,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 140943433625743837}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 109f86b859b382f488bc6c4e9b5b1b2b, type: 3}
+  m_Script: {fileID: 11500000, guid: 83b5fce3d6549154d867525406a190ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _pickedUp: 0
-  _part: {fileID: 140943433625743814}
   _dragOffset: {x: 0, y: 0}
-  _partType: 1
   _canCollect:
     serializedVersion: 2
     m_Bits: 256
   _rb: {fileID: 140943433625743834}
+  _part: {fileID: 140943433625743814}
 --- !u!114 &-2754767672040381903
 MonoBehaviour:
   m_ObjectHideFlags: 0
