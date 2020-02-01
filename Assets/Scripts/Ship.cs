@@ -43,9 +43,11 @@ public class Ship : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (_playerMask != (_playerMask | 1 << collision.gameObject.layer))
-            return;
-
-        RobotCharacter._instance.BankItems(this);
+        if (_playerMask == (_playerMask | 1 << collision.gameObject.layer))
+        {
+            RobotCharacter._instance.BankItems(this);
+        }
+        
+        
     }
 }
