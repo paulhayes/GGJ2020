@@ -33,7 +33,7 @@ namespace Jamey
         {
             if (Input.GetKey(KeyCode.UpArrow))
             {
-                _rigidbody2D.AddRelativeForce(Vector2.up * 0.001f, ForceMode2D.Impulse);
+                _rigidbody2D.AddRelativeForce(Vector2.up * 0.0001f, ForceMode2D.Impulse);
                 _trail.Play();
                 _blaze.Play();
             }
