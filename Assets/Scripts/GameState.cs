@@ -2,17 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameState : MonoBehaviour
+[CreateAssetMenu]
+public class GameState : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public event System.Action<States,States> StateChangedEvent;
+
+    [SerializeField]
+    [ReadOnly]
+    States _state;
+
+    public States State {
+        get {
+            return _state;
+        }
+        set {
+            var oldState = _state;
+            _state = value;
+            Changed(oldState,_state);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Reset()
     {
-        
+        State = States.Falling;
     }
+
+    public void Stopped()
+    {
+        StateChangedEvent = null;
+    }
+
+    void Changed(States oldState, States newState){
+        if(StateChangedEvent!=null)
+            StateChangedEvent(oldState,newState);
+    }
+
+
 }

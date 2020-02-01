@@ -855,7 +855,7 @@ PrefabInstance:
     - target: {fileID: 6404812916834386767, guid: dd19d09433a4e564bb5d8615c36f8a2d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6404812916834386767, guid: dd19d09433a4e564bb5d8615c36f8a2d,
         type: 3}
@@ -1055,6 +1055,7 @@ GameObject:
   m_Component:
   - component: {fileID: 580879383}
   - component: {fileID: 580879382}
+  - component: {fileID: 580879384}
   m_Layer: 0
   m_Name: Main
   m_TagString: Untagged
@@ -1090,6 +1091,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &580879384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580879381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54f68a06ca5193e4091f14a14a21d261, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameState: {fileID: 11400000, guid: bff33d099c8739d47b3447d8e47f359e, type: 2}
 --- !u!1 &654553329
 GameObject:
   m_ObjectHideFlags: 0

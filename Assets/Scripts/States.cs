@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-enum States 
+public enum States 
 {
-    Falling
+    Falling,
+    Crash,
+    Scavenge,
+    Countdown,
+    Launch
 }
