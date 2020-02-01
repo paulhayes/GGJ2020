@@ -14,6 +14,9 @@ public class RobotCharacter : MonoBehaviour
 
     [SerializeField] Transform _startPosition;
 
+    [SerializeField] AudioSource _source;
+    [SerializeField] AudioClip _partPickupSfx;
+
     bool _inputEnabled = true;
     bool _returnToShip = false;
 
@@ -95,10 +98,14 @@ public class RobotCharacter : MonoBehaviour
 
         _itemSlots[_itemsHeld] = item;
         _itemsHeld++;
+
+        _source.PlayOneShot(_partPickupSfx);
     }
 
     public void BankItems(Ship ship)
     {
+        Vector3 scoreDelta = Vector3.zero;
+
         for (int i = 0; i < _itemSlots.Length; i++)
         {
             Item item = _itemSlots[i];
@@ -107,10 +114,12 @@ public class RobotCharacter : MonoBehaviour
             if (item == null)
                 continue;
 
-            ship.AddScore(item._part.values);
+            scoreDelta += item._part.values;
 
             Destroy(item.gameObject);
         }
+
+        ship.AddScore(scoreDelta);
 
         _itemsHeld = 0;
     }

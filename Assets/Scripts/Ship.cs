@@ -9,6 +9,8 @@ public class Ship : MonoBehaviour
     [SerializeField]
     RobotPlayerData playerData;
 
+    [SerializeField] AudioSource _source;
+    [SerializeField] AudioClip _partBankedSfx;
     
     void Start()
     {
@@ -34,6 +36,7 @@ public class Ship : MonoBehaviour
     public void AddScore(Vector3 scoreVector)
     {
         playerData.score += scoreVector;
+        _source.PlayOneShot(_partBankedSfx);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
