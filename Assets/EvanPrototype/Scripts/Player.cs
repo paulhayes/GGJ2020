@@ -38,19 +38,28 @@ public class Player : MonoBehaviour
         if (_itemsHeld >= _itemSlots.Length)
             return;
 
+        item._pickedUp = true;
+
         _itemSlots[_itemsHeld] = item;
         _itemsHeld++;
     }
 
-    public void BankItems ()
+    public void BankItems (Rocket rocket)
     {
-        foreach (var item in _itemSlots)
+        for (int i = 0; i < _itemSlots.Length; i++)
         {
+            Item item = _itemSlots[i];
+            _itemSlots[i] = null;
+
             if (item == null)
-                break;
+                continue;
+
+            rocket.AddScore(item._part.values);
 
             Destroy(item.gameObject);
         }
+
+        _itemsHeld = 0;
     }
 
     void Move (float x, float y)
