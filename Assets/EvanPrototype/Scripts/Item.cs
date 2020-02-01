@@ -7,6 +7,7 @@ public class Item : MonoBehaviour
 {
     public bool _pickedUp = false;
     public Part _part;
+
     [SerializeField] PartType _partType;
 
     [SerializeField] LayerMask _canCollect;
