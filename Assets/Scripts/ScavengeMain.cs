@@ -18,12 +18,9 @@ public class ScavengeMain : MonoBehaviour
     {
         Physics2D.gravity = Vector2.zero;
         playerData.Reset();
-        _gameState.State = States.Scavenge;
     }
 
     void Update(){
-        Debug.Log(_gameState.State);
-
         if (_gameState.State == States.Scavenge)
         {
             playerData.timeRemaining -= Time.deltaTime;

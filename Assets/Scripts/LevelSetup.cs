@@ -4,15 +4,15 @@ using System.Linq;
 using Moon;
 using Parts;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class LevelSetup : MonoBehaviour
 {
     [SerializeField] private GameState _gameState;
-    
+
+    [SerializeField] private Transform _surface;
     [SerializeField] private Crater _craterPrefab;
-    [SerializeField] private MoonRock _moonRockPrefab;
+    [SerializeField] private Rock _rockPrefab;
     [SerializeField] private EnginePart _enginePartPrefab;
     [SerializeField] private FuelPart _fuelPartPrefab;
     [SerializeField] private BodyPart _bodyPartPrefab;
@@ -24,11 +24,16 @@ public class LevelSetup : MonoBehaviour
     [SerializeField] private int _maxFuelParts;
     [SerializeField] private int _maxBodyParts;
     [SerializeField] private Vector2 _craterPositionJitter;
-    [FormerlySerializedAs("_levelPositionJitter")] [SerializeField] private Vector2 _objectPositionJitter;
+    [SerializeField] private Vector2 _objectPositionJitter;
 
-    private void Awake()
+    private void OnEnable()
     {
         _gameState.StateChangedEvent += OnStateChange;
+    }
+
+    private void OnDisable()
+    {
+        _gameState.StateChangedEvent -= OnStateChange;
     }
 
     private void OnStateChange(States oldState, States newState)
@@ -43,18 +48,18 @@ public class LevelSetup : MonoBehaviour
     private void SetupMoonFeatures()
     {
         //Calculate our sizes.
-        var levelSize = new Vector2(_levelBoundary.width, _levelBoundary.height);
-        var gridSizeX = (int)(levelSize.x / _craterPrefab.Size.x);
-        var gridSizeY = (int) (levelSize.y / _craterPrefab.Size.y);
-        var totalSize = gridSizeX * gridSizeY;
-        Debug.Assert(totalSize > _maxCraters, "totalSize > _maxCraters"); //Avoid an index out of bounds.
+        var gridWidth = (int)(_levelBoundary.width / _craterPrefab.Size.x);
+        var gridHeight = (int) (_levelBoundary.height / _craterPrefab.Size.y);
+        var totalSize = gridWidth * gridHeight;
+        Debug.Assert(totalSize > _maxCraters, $"Total grid size ({totalSize}) must be greater than the number of craters ({_maxCraters})"); //Warn about an index out of bounds.
         
         //Randomly distribute craters around the level.
-        var flatCraterGrid = new List<bool>(totalSize);
+        var flatCraterGrid = Enumerable.Repeat(false, totalSize).ToList();
         for (var i = 0; i < _maxCraters; ++i)
         {
             flatCraterGrid[i] = true;
         }
+        flatCraterGrid.Reverse(); //This reverse prevents the high odds of one of the items ending up in the first position.
         flatCraterGrid.Sort((_1, _2) => Random.Range(-1, 1));
         
         //Create craters in final positions.
@@ -64,15 +69,18 @@ public class LevelSetup : MonoBehaviour
             {
                 continue;
             }
-            var x = i % gridSizeX + Random.Range(-_craterPositionJitter.x, _craterPositionJitter.x);
-            var y = i - x + Random.Range(-_craterPositionJitter.y, _craterPositionJitter.y);
-            Instantiate(_craterPrefab, new Vector3(x, y, 0), Quaternion.identity);
+
+            var xJitter = Random.Range(-_craterPositionJitter.x, _craterPositionJitter.x);
+            var yJitter = Random.Range(-_craterPositionJitter.y, _craterPositionJitter.y);
+            var x = _levelBoundary.x + _levelBoundary.width * i % gridWidth / gridWidth + xJitter + _craterPrefab.Size.x / 2;
+            var y = _levelBoundary.y - _levelBoundary.height * i / gridWidth / gridHeight + yJitter + _craterPrefab.Size.y / 2;
+            var crater = Instantiate(_craterPrefab, new Vector3(x, y, 0), Quaternion.identity);
         }
     }
 
     private enum LevelObject
     {
-        MoonRock,
+        Rock,
         EnginePart,
         FuelPart,
         BodyPart,
@@ -82,41 +90,45 @@ public class LevelSetup : MonoBehaviour
     private void SetupLevel()
     {
         //Calculate our sizes.
-        var levelSize = new Vector2(_levelBoundary.width, _levelBoundary.height);
-        var gridSizeX = (int)(levelSize.x / Mathf.Max(_moonRockPrefab.Size.x, _enginePartPrefab.Size.x, _fuelPartPrefab.Size.x, _bodyPartPrefab.Size.x));
-        var gridSizeY = (int)(levelSize.y / Mathf.Max(_moonRockPrefab.Size.y, _enginePartPrefab.Size.y, _fuelPartPrefab.Size.y, _bodyPartPrefab.Size.y));
-        var totalSize = gridSizeX * gridSizeY;
+        var gridWidth = (int)(_levelBoundary.width / Mathf.Max(_rockPrefab.Size.x, _enginePartPrefab.Size.x, _fuelPartPrefab.Size.x, _bodyPartPrefab.Size.x));
+        var gridHeight = (int)(_levelBoundary.height / Mathf.Max(_rockPrefab.Size.y, _enginePartPrefab.Size.y, _fuelPartPrefab.Size.y, _bodyPartPrefab.Size.y));
+        var totalSize = gridWidth * gridHeight;
         var totalObjects = _maxMoonRocks + _maxEngineParts + _maxFuelParts + _maxBodyParts;
-        Debug.Assert(totalSize > totalObjects, "The max object values exceed the total size of the game grid"); //Warn and break to avoid an index out of bounds.
+        Debug.Assert(totalSize > totalObjects, $"Total grid size ({totalSize}) must be greater than the total number of objects ({totalObjects})."); //Warn about the index out of bounds.
         
         //Randomly distribute objects around the level.
         var flatGrid = Concatenate(
-            Enumerable.Range(0, _maxMoonRocks).Select(i => LevelObject.MoonRock),
-            Enumerable.Range(0, _maxEngineParts).Select(i => LevelObject.EnginePart),
-            Enumerable.Range(0, _maxFuelParts).Select(i => LevelObject.FuelPart),
-            Enumerable.Range(0, _maxBodyParts).Select(i => LevelObject.BodyPart),
-            Enumerable.Range(0, totalSize - totalObjects).Select(i => LevelObject.None))
+            Enumerable.Repeat(LevelObject.Rock, _maxMoonRocks),
+            Enumerable.Repeat(LevelObject.EnginePart, _maxEngineParts),
+            Enumerable.Repeat(LevelObject.FuelPart, _maxFuelParts),
+            Enumerable.Repeat(LevelObject.BodyPart, _maxBodyParts),
+            Enumerable.Repeat(LevelObject.None, totalSize - totalObjects))
             .ToList();
+        flatGrid.Reverse(); //This reverse prevents the high odds of one of the items ending up in the first position.
         flatGrid.Sort((_1, _2) => Random.Range(-1, 1));
         
         //Create objects in final positions.
         for(var i = 0; i < totalSize; ++i)
         {
-            var x = i % gridSizeX + Random.Range(-_objectPositionJitter.x, _objectPositionJitter.x);
-            var y = i - x + Random.Range(-_objectPositionJitter.y, _objectPositionJitter.y);
+            var xJitter = Random.Range(-_objectPositionJitter.x, _objectPositionJitter.x);
+            var yJitter = Random.Range(-_objectPositionJitter.y, _objectPositionJitter.y);
+            var relativeX = (float)i % gridWidth / gridWidth;
+            var relativeY = (float)i / gridWidth / gridHeight;
+            var x = _levelBoundary.x + _levelBoundary.width * relativeX + xJitter;
+            var y = _levelBoundary.y - _levelBoundary.height * relativeY + yJitter;
             switch (flatGrid[i]) //No crater here, skip on. 
             {
-                case LevelObject.MoonRock:
-                    Instantiate(_moonRockPrefab, new Vector3(x, y, 0), Quaternion.identity);
+                case LevelObject.Rock:
+                    var rock = Instantiate(_rockPrefab, new Vector3(x + _rockPrefab.Size.x / 2, y + _rockPrefab.Size.y / 2, 0), Quaternion.identity);
                     break;
                 case LevelObject.EnginePart:
-                    Instantiate(_enginePartPrefab, new Vector3(x, y, 0), Quaternion.identity);
+                    var enginePart = Instantiate(_enginePartPrefab, new Vector3(x + _enginePartPrefab.Size.x / 2, y + _enginePartPrefab.Size.y / 2, 0), Quaternion.identity);
                     break;
                 case LevelObject.FuelPart:
-                    Instantiate(_fuelPartPrefab, new Vector3(x, y, 0), Quaternion.identity);
+                    var fuelPart = Instantiate(_fuelPartPrefab, new Vector3(x + _fuelPartPrefab.Size.x / 2, y + _fuelPartPrefab.Size.y / 2, 0), Quaternion.identity);
                     break;
                 case LevelObject.BodyPart:
-                    Instantiate(_bodyPartPrefab, new Vector3(x, y, 0), Quaternion.identity);
+                    var bodyPart = Instantiate(_bodyPartPrefab, new Vector3(x + _bodyPartPrefab.Size.x / 2, y + _bodyPartPrefab.Size.y / 2, 0), Quaternion.identity);
                     break;
                 case LevelObject.None:
                     break;

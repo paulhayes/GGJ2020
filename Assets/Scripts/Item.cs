@@ -20,7 +20,7 @@ public class Item : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.localScale = Vector2.one * _part.values[(int)_partType];
+        transform.localScale = Vector2.one;// * _part.values[(int)_partType];
     }
 
     public void Move(Vector2 vel)

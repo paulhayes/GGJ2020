@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6162173522741945384}
   - component: {fileID: 6162173522741945387}
   - component: {fileID: 6162173522741945386}
+  - component: {fileID: -2487330998775240708}
   m_Layer: 0
   m_Name: Part_EnginePower
   m_TagString: Untagged
@@ -166,8 +167,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pickedUp: 0
   _part: {fileID: 6162173522741945387}
+  _dragOffset: {x: 0, y: 0}
   _partType: 0
   _canCollect:
     serializedVersion: 2
     m_Bits: 256
   _rb: {fileID: 6162173522741945384}
+--- !u!114 &-2487330998775240708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6162173522741945388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e905d63f465d42f697f819869eaa1b75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _size: {x: 0.1, y: 0.1}
