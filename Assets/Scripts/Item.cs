@@ -9,28 +9,13 @@ public class Item : MonoBehaviour
 
     [HideInInspector] public Vector2 _dragOffset;
 
-    [SerializeField] LayerMask _canCollect;
+    public Collider2D _collider;
 
-    [SerializeField] Rigidbody2D _rb;
-    //[SerializeField] TextMeshPro _scoreText;
+    [SerializeField] LayerMask _canCollect;
 
     // Start is called before the first frame update
     void Start()
     {
         transform.localScale = Vector2.one;
-    }
-
-    public void Move(Vector2 vel)
-    {
-        _rb.velocity = vel;
-    }
-
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (_pickedUp ||
-            _canCollect != (_canCollect | 1 << collision.gameObject.layer))
-            return;
-
-        RobotCharacter._instance.Pickup(this);
     }
 }
