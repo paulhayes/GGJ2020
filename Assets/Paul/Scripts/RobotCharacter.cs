@@ -13,11 +13,11 @@ public class RobotCharacter : MonoBehaviour
         
     }
 
-    void Update()
+    void FixedUpdate()
     {
         var dx = Input.GetAxis("Horizontal");
         var dy = Input.GetAxis("Vertical");
         //transform.position += 
-        body.velocity = Time.deltaTime * new Vector3(dx,0,dy);
+        body.velocity = new Vector3(dx,dy,0);
     }
 }
