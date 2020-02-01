@@ -8,5 +8,6 @@ public class Part : MonoBehaviour
     public readonly static int Fuel = 1;
     public readonly static int Aerodynamic = 2;
 
+    [Header("Engine Power, Fuel, Aerodynamic")]
     public Vector3 values;
 }
