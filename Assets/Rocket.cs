@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Jamey
 {
@@ -9,6 +10,8 @@ namespace Jamey
     {
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private Camera _camera;
+        [FormerlySerializedAs("_particleSystem")] [SerializeField] private ParticleSystem _trail;
+        [SerializeField] private ParticleSystem _blaze;
         [SerializeField] private float _cameraZoomOutScale;
 
         private float _initialYPosition;
@@ -16,6 +19,8 @@ namespace Jamey
         private void Start()
         {
             _initialYPosition = transform.position.y;
+            _trail.Stop();
+            _blaze.Stop();
         }
 
         private void Update()
@@ -29,6 +34,13 @@ namespace Jamey
             if (Input.GetKey(KeyCode.UpArrow))
             {
                 _rigidbody2D.AddRelativeForce(Vector2.up * 0.001f, ForceMode2D.Impulse);
+                _trail.Play();
+                _blaze.Play();
+            }
+            else
+            {
+                _trail.Stop();
+                _blaze.Stop();
             }
         }
 
