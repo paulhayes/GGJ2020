@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Moon;
 using Parts;
 using UnityEngine;
@@ -20,7 +18,9 @@ public class LevelSetup : MonoBehaviour
 
     [SerializeField] private Rect _levelBoundary;
     [SerializeField] private Rect[] _deadZones;
+    [SerializeField] private Vector2Int _craterGrid;
     [SerializeField] private int _maxCraters; //TODO: These maxes are the actual values at the moment, should we instead randomise within a range?
+    [SerializeField] private Vector2Int _objectGrid;
     [FormerlySerializedAs("_maxMoonRocks")] [SerializeField] private int _maxRocks;
     [SerializeField] private int _maxEngineParts;
     [SerializeField] private int _maxFuelParts;
@@ -50,16 +50,14 @@ public class LevelSetup : MonoBehaviour
     private void SetupMoonFeatures()
     {
         //Calculate our cell sizes.
-        var numberOfCellsX = (int)(_levelBoundary.width / (_craterPrefab.Size.x * 2)) - 1; //-1 accounts for the 'last column' which starts at the edge of the screen.
-        var numberOfCellsY = (int) (_levelBoundary.height / (_craterPrefab.Size.y * 2)) - 1;
-        var gridCellWidth = _levelBoundary.width / numberOfCellsX;
-        var gridCellHeight = _levelBoundary.height / numberOfCellsY;
+        var gridCellWidth = _levelBoundary.width / _craterGrid.x;
+        var gridCellHeight = _levelBoundary.height / _craterGrid.y;
 
         //Randomly distribute craters around the level, removing any dead zones.
         var validCells = new List<Rect>();
-        for (var x = 0; x < numberOfCellsX; x++)
+        for (var x = 0; x < _craterGrid.x; x++)
         {
-            for (var y = 0; y < numberOfCellsY; y++)
+            for (var y = 0; y < _craterGrid.y; y++)
             {
                 var cell = new Rect(_levelBoundary.x + x * gridCellWidth, _levelBoundary.y - y * gridCellHeight, gridCellWidth, gridCellHeight);
                 var touchesDeadZone = false;
@@ -87,16 +85,14 @@ public class LevelSetup : MonoBehaviour
     private void SetupLevel()
     {
         //Calculate our sizes.
-        var numberOfCellsX = (int)(_levelBoundary.width / (Mathf.Max(_rockPrefab.Size.x, _enginePartPrefab.Size.x, _fuelPartPrefab.Size.x, _bodyPartPrefab.Size.x) * 2)) - 1;
-        var numberOfCellsY = (int)(_levelBoundary.height / (Mathf.Max(_rockPrefab.Size.y, _enginePartPrefab.Size.y, _fuelPartPrefab.Size.y, _bodyPartPrefab.Size.y) * 2)) - 1;
-        var gridCellWidth = _levelBoundary.width / numberOfCellsX;
-        var gridCellHeight = _levelBoundary.height / numberOfCellsY;
+        var gridCellWidth = _levelBoundary.width / _objectGrid.x;
+        var gridCellHeight = _levelBoundary.height / _objectGrid.y;
         
         //Randomly distribute objects around the level.
         var validCells = new List<Rect>();
-        for (var x = 0; x < numberOfCellsX; x++)
+        for (var x = 0; x < _objectGrid.x; x++)
         {
-            for (var y = 0; y < numberOfCellsY; y++)
+            for (var y = 0; y < _objectGrid.y; y++)
             {
                 var cell = new Rect(_levelBoundary.x + x * gridCellWidth, _levelBoundary.y - y * gridCellHeight, gridCellWidth, gridCellHeight);
                 var touchesDeadZone = false;

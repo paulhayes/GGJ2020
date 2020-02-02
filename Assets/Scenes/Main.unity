@@ -588,7 +588,9 @@ MonoBehaviour:
     y: 1.5
     width: 1.25
     height: -0.3
+  _craterGrid: {x: 10, y: 3}
   _maxCraters: 39
+  _objectGrid: {x: 58, y: 18}
   _maxRocks: 144
   _maxEngineParts: 300
   _maxFuelParts: 300
