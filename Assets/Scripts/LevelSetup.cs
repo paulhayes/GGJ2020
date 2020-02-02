@@ -42,6 +42,18 @@ public class LevelSetup : MonoBehaviour
             SetupMoonFeatures();
             SetupLevel();
         }
+
+        if (newState == States.Countdown)
+        {
+            foreach (var spawnedObject in _spawnedObjects)
+            {
+                var component = spawnedObject.GetComponent<Collider2D>();
+                if (component != null)
+                {
+                    component.isTrigger = true;
+                }
+            }
+        }
     }
 
     private void RemoveSpawned()
