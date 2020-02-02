@@ -29,9 +29,8 @@ public class Ship : MonoBehaviour
                 continue;
             if(score[i]>0){
                 repairSFX[i].Play();
+                yield return new WaitForSeconds( repairSFX[i].clip.length );
             }
-            
-            yield return new WaitForSeconds( repairSFX[i].clip.length );
         }
     }
 

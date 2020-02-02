@@ -22,6 +22,8 @@ public class Rocket : MonoBehaviour
 
     [SerializeField] SpriteRenderer _spriteRenderer;
 
+    [SerializeField] SpriteRenderer _flameFX;
+
     [SerializeField] AudioSource thrustSFX;
     [SerializeField] AudioSource crashSFX;
     Dictionary<States, System.Func<IEnumerator>> stateChangeActions = new Dictionary<States, System.Func<IEnumerator>>();
@@ -34,7 +36,7 @@ public class Rocket : MonoBehaviour
         stateChangeActions.Add(States.Falling,StartFalling);
         stateChangeActions.Add(States.Crash,StartCrash);
         stateChangeActions.Add(States.Launch,StartLaunch);
-
+        _flameFX.enabled = false;
     }
 
     private void OnScoreChanged(Vector3 score)
@@ -80,13 +82,17 @@ public class Rocket : MonoBehaviour
             yield break;
         }
         thrustSFX.Play();
+        _flameFX.enabled = true;
         while( duration>0 ){
             yield return new WaitForFixedUpdate();
             rocketBody.AddRelativeForce(Vector3.up * thrust*thrustScale,ForceMode2D.Force);
             rocketBody.angularVelocity += 0.06f *(Mathf.PerlinNoise(transform.position.x/3,transform.position.y/3)-0.5f);
             //rocketBody.velocity += Vector2.left * 0.06f *(Mathf.PerlinNoise(transform.position.x/3,transform.position.y/3)-0.5f);
             duration -= Time.fixedDeltaTime;
+            _flameFX.transform.localScale = new Vector3(1,1+UnityEngine.Random.Range(0.9f,1.1f),1);
         }
+        _flameFX.enabled = false;
+
         thrustSFX.Stop();
 
         _state.State = States.Falling;
