@@ -121,6 +121,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!212 &174975632 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2035951965729635497, guid: 06e8022fe194b324ba50c35273621ca4,
+    type: 3}
+  m_PrefabInstance: {fileID: 2035951966543955158}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &295964977
 GameObject:
   m_ObjectHideFlags: 0
@@ -565,17 +571,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameState: {fileID: 11400000, guid: bff33d099c8739d47b3447d8e47f359e, type: 2}
-  _surface: {fileID: 1132959116}
-  _craterPrefab: {fileID: -5435437035487768543, guid: acda57bde47c2904f8951a2966fdef05,
-    type: 3}
-  _rockPrefab: {fileID: 8110826712021763819, guid: 288134ba65a54034eaa1e012aaf22821,
-    type: 3}
-  _enginePartPrefab: {fileID: -2487330998775240708, guid: 931ddf4d860012a4cbd75bdabc10343d,
-    type: 3}
-  _fuelPartPrefab: {fileID: -2754767672040381903, guid: 0314d373ebbd44243bb145c58777e487,
-    type: 3}
-  _bodyPartPrefab: {fileID: 2154112081011822511, guid: ab9a2e4ffe98fef43a2673a5282235d8,
-    type: 3}
   _levelBoundary:
     serializedVersion: 2
     x: -6
@@ -583,19 +578,26 @@ MonoBehaviour:
     width: 12
     height: 4
   _deadZones:
-  - serializedVersion: 2
-    x: -0.7
-    y: 1.5
-    width: 1.25
-    height: -0.3
+  - {fileID: 174975632}
   _craterGrid: {x: 10, y: 3}
-  _maxCraters: 39
-  _objectGrid: {x: 58, y: 18}
-  _maxRocks: 144
-  _maxEngineParts: 300
-  _maxFuelParts: 300
-  _maxBodyParts: 300
-  _craterPositionJitter: {x: 0.2, y: 0.2}
+  _crater:
+    _object: {fileID: 0}
+    _ratio: 0
+  _craterPositionJitter: {x: 0.25, y: 0.25}
+  _objectGrid: {x: 50, y: 15}
+  _objectRatios:
+  - _object: {fileID: 4170183565795269718, guid: ab9a2e4ffe98fef43a2673a5282235d8,
+      type: 3}
+    _ratio: 0.05
+  - _object: {fileID: 6162173522741945388, guid: 931ddf4d860012a4cbd75bdabc10343d,
+      type: 3}
+    _ratio: 0.05
+  - _object: {fileID: 140943433625743837, guid: 0314d373ebbd44243bb145c58777e487,
+      type: 3}
+    _ratio: 0.05
+  - _object: {fileID: 8446614467343237972, guid: 288134ba65a54034eaa1e012aaf22821,
+      type: 3}
+    _ratio: 0.03
   _objectPositionJitter: {x: 0.05, y: 0.05}
 --- !u!1 &654553329
 GameObject:
