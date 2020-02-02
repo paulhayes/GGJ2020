@@ -10,13 +10,13 @@ PrefabInstance:
     - target: {fileID: 140943433625743814, guid: 0314d373ebbd44243bb145c58777e487,
         type: 3}
       propertyPath: values.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 140943433625743832, guid: 0314d373ebbd44243bb145c58777e487,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f49a58de744dc9c4188f3c078f82d973,
+      objectReference: {fileID: 21300000, guid: 197e729342e5d4e44b85adbc5b7ff7a6,
         type: 3}
     - target: {fileID: 140943433625743833, guid: 0314d373ebbd44243bb145c58777e487,
         type: 3}
@@ -106,12 +106,12 @@ PrefabInstance:
     - target: {fileID: 140943433625743837, guid: 0314d373ebbd44243bb145c58777e487,
         type: 3}
       propertyPath: m_Name
-      value: Part Engine Val2
+      value: Part Engine Val3
       objectReference: {fileID: 0}
     - target: {fileID: 5335678186631395646, guid: 0314d373ebbd44243bb145c58777e487,
         type: 3}
       propertyPath: weight
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0314d373ebbd44243bb145c58777e487, type: 3}

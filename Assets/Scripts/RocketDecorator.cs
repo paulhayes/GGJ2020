@@ -42,5 +42,6 @@ public class RocketDecorator : MonoBehaviour
             Math.Min( Mathf.CeilToInt(normalizedScore.z*_bodySprites.Length),_bodySprites.Length-1)
         );
         _bodyRenderer.sprite = _bodySprites[frames.z];
+        _engineRenderer.sprite = _engineSprites[frames.z];
     }
 }

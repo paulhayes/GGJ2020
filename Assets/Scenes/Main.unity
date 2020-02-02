@@ -986,6 +986,9 @@ MonoBehaviour:
   - _object: {fileID: 7534620504993821085, guid: 7f762b3505e089e4493c8eaffc47e763,
       type: 3}
     _ratio: 0.02
+  - _object: {fileID: 7534620504993821085, guid: 1d327ac651ca2a34288c4a9254668baf,
+      type: 3}
+    _ratio: 0.01
   - _object: {fileID: 140943433625743837, guid: 0314d373ebbd44243bb145c58777e487,
       type: 3}
     _ratio: 0.05
@@ -3184,7 +3187,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1939982166}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.04, z: 0}
+  m_LocalPosition: {x: 0, y: -1.37, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3501,11 +3504,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RocketShip
-      objectReference: {fileID: 0}
-    - target: {fileID: 7297776464141999889, guid: 06e8022fe194b324ba50c35273621ca4,
-        type: 3}
-      propertyPath: Loop
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e8022fe194b324ba50c35273621ca4, type: 3}
