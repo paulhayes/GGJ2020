@@ -9,6 +9,7 @@ public class Item : MonoBehaviour
     public float weight = 1;
 
     [SerializeField] Collider2D _collider;
+    [SerializeField] SpriteRenderer _renderer;
 
     void Start()
     {
@@ -20,5 +21,10 @@ public class Item : MonoBehaviour
     {
         _collider.enabled = false;
         _pickedUp = true;
+    }
+
+    public Vector2 GetSize()
+    {
+        return _renderer.bounds.size;
     }
 }

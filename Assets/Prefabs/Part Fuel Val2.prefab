@@ -144,4 +144,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weight: 4
   _collider: {fileID: 6404812916834386761}
+  _renderer: {fileID: 6404812916834386760}
   _part: {fileID: 6404812916834386763}

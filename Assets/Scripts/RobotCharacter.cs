@@ -209,18 +209,28 @@ public class RobotCharacter : MonoBehaviour
         {
             Transform slotTransform;
 
+            float multiplier;
+
             if (_itemSlots[i].item == null)
             {
                 _emptySlotGfx[i].SetActive(_gameState.State == States.Scavenge);
                 slotTransform = _emptySlotGfx[i].transform;
+
+                multiplier = 0.15f;
             }
             else
             {
                 _emptySlotGfx[i].SetActive(false);
                 slotTransform = _itemSlots[i].item.transform;
+
+                var size = _itemSlots[i].item.GetSize();
+
+                multiplier = size.y;
+
+                Debug.Log(size);
             }
 
-            var multiplier = slotTransform.localScale.y * 0.15f;
+
 
             currentPos += (_trailDir * multiplier * 0.5f) /*+ (_trailDir * _itemTrailPadding)*/;
             slotTransform.position = _emptySlotGfx[i].transform.position = Vector3.Lerp(slotTransform.position, currentPos, 0.025f);
