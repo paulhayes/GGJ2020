@@ -8,7 +8,7 @@ public class GameState : ScriptableObject
     public event System.Action<States,States> StateChangedEvent;
 
     [SerializeField]
-    [ReadOnly]
+    //[ReadOnly]
     States _state;
 
     public States State {

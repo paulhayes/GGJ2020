@@ -5,13 +5,13 @@ using UnityEngine;
 [CreateAssetMenu]
 public class RobotPlayerData : ScriptableObject
 {
-    [ReadOnly]
+    //[ReadOnly]
     Vector3 _score;
 
-    [ReadOnly]
+    //[ReadOnly]
     public float altitudeReached;
 
-    [ReadOnly]
+    //[ReadOnly]
     public float maxAltitudeReached;
 
     public event System.Action<Vector3> ScoreChangedEvent;
