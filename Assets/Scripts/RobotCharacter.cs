@@ -130,11 +130,11 @@ public class RobotCharacter : MonoBehaviour
         {
             StartCoroutine(GainConsciousness());
             ResetPowerUps();
-            Physics2D.SetLayerCollisionMask(gameObject.layer, _normalCollisionMask);
+            //Physics2D.SetLayerCollisionMask(gameObject.layer, _normalCollisionMask);
         }
         else if (newState == States.Countdown)
         {
-            Physics2D.SetLayerCollisionMask(gameObject.layer, _countdownCollisionMask);
+            //Physics2D.SetLayerCollisionMask(gameObject.layer, _countdownCollisionMask);
         }
     }
 
