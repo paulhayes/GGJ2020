@@ -13,7 +13,8 @@ public class ScavengeMain : MonoBehaviour
 
     [SerializeField]
     RobotCharacter robot;
-    
+
+    float _beginningTimer;
 
     void Awake()
     {
@@ -26,6 +27,7 @@ public class ScavengeMain : MonoBehaviour
     {
         if(newState==States.Begining){
             playerData.Reset();
+            _beginningTimer = 0;
         }
         
 
@@ -34,7 +36,9 @@ public class ScavengeMain : MonoBehaviour
     void Update(){
         if(_gameState.State == States.Begining)
         {
-            if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+            _beginningTimer += Time.deltaTime;
+
+            if (_beginningTimer > 3 && Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
             {
                 _gameState.State = States.Scavenge;
             }
