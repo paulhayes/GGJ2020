@@ -3795,6 +3795,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2035951965729635497, guid: 06e8022fe194b324ba50c35273621ca4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7e493cf98416964409b5fdd7cc88aea2,
+        type: 3}
     - target: {fileID: 2035951965729635499, guid: 06e8022fe194b324ba50c35273621ca4,
         type: 3}
       propertyPath: m_Name
@@ -3833,6 +3839,11 @@ PrefabInstance:
       propertyPath: _startPosition
       value: 
       objectReference: {fileID: 506952953}
+    - target: {fileID: 4383721239001615890, guid: e0369c4e2870f854f9f7d1e838b214bb,
+        type: 3}
+      propertyPath: _walkAnimSpeed
+      value: 0.15
+      objectReference: {fileID: 0}
     - target: {fileID: 4383721239001615891, guid: e0369c4e2870f854f9f7d1e838b214bb,
         type: 3}
       propertyPath: m_LocalPosition.x

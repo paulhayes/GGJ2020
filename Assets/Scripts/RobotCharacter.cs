@@ -148,7 +148,6 @@ public class RobotCharacter : MonoBehaviour
 
         _walkAnimTimer = _walkAnimSpeed;
 
-        Debug.Log(_walkIndex);
     }
 
     void OnStateChanged(States oldState, States newState)
