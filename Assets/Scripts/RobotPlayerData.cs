@@ -8,6 +8,12 @@ public class RobotPlayerData : ScriptableObject
     [ReadOnly]
     Vector3 _score;
 
+    [ReadOnly]
+    public float altitudeReached;
+
+    [ReadOnly]
+    public float maxAltitudeReached;
+
     public event System.Action<Vector3> ScoreChangedEvent;
 
     public Vector3 Score {
@@ -31,11 +37,13 @@ public class RobotPlayerData : ScriptableObject
     public void GameEnd()
     {
         ScoreChangedEvent = null;
+        maxAltitudeReached = 0;
     }
 
     public void Reset(){
         Score = Vector3.zero;
         timeRemaining = levelDuration;
+        altitudeReached = 0;
     }
 
 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ScoreUI : MonoBehaviour
 {
@@ -13,10 +14,15 @@ public class ScoreUI : MonoBehaviour
     Slider timerSlider;
 
     [SerializeField]
+    TextMeshProUGUI altitudeReachedField;
+
+    [SerializeField]
     RobotPlayerData playerData;
 
     [SerializeField]
     GameState _gameState;
+
+    float lastHeightDisplayed = -1;
 
     void Awake()
     {
@@ -41,5 +47,11 @@ public class ScoreUI : MonoBehaviour
         }
         
         timerSlider.value = playerData.timeRemaining;
+
+        if(lastHeightDisplayed != playerData.altitudeReached){
+            lastHeightDisplayed = playerData.altitudeReached;
+
+            altitudeReachedField.text = Mathf.Round(lastHeightDisplayed*1000).ToString();
+        }
     }
 }

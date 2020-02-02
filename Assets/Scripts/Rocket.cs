@@ -21,6 +21,8 @@ public class Rocket : MonoBehaviour
 
     [SerializeField] float groundLevel;
 
+    [SerializeField] SpriteRenderer _spriteRenderer;
+
     [SerializeField] AudioSource crashSFX;
     Dictionary<States, System.Func<IEnumerator>> stateChangeActions = new Dictionary<States, System.Func<IEnumerator>>();
 
@@ -100,6 +102,9 @@ public class Rocket : MonoBehaviour
         if(rocketBody.velocity.magnitude > 1f){
             rocketBody.rotation = Vector2.SignedAngle(Vector2.up,rocketBody.velocity);
         }
+        if(_state.State==States.Launch){
+            CheckAltitude();
+        }
         if(_state.State==States.Falling)
         {
             //Debug.LogFormat("falling {0}",rocketBody.velocity.y);
@@ -109,8 +114,23 @@ public class Rocket : MonoBehaviour
             if(transform.position.y<groundLevel){
                 _state.State = States.Crash;
             }
+
+
+            CheckAltitude();
         }
+
+
+
+       
+        
     }
 
-
+    private void CheckAltitude()
+    {
+        //bounds.max.y
+        var alt = (_spriteRenderer.transform.position.y - groundLevel) ;
+            if(alt>robotPlayerData.altitudeReached) {
+                robotPlayerData.altitudeReached = alt;
+            }
+    }
 }
