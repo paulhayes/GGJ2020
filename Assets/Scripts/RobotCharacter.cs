@@ -21,15 +21,14 @@ public class RobotCharacter : MonoBehaviour
     [SerializeField] Transform _startPosition;
 
     [SerializeField] AudioSource _source;
+
+    [SerializeField] AudioSource wakeUpSFX;
     [SerializeField] LayerMask _itemMask;
 
     [SerializeField] float _itemTrailStart;
     [SerializeField] float _itemTrailPadding;
 
     [SerializeField] GameObject _emptySlotPfb;
-
-    [SerializeField] LayerMask _normalCollisionMask;
-    [SerializeField] LayerMask _countdownCollisionMask;
 
 
     ItemSlot[] _itemSlots = new ItemSlot[AbsoluteMaximumCarriableItems];
@@ -127,7 +126,7 @@ public class RobotCharacter : MonoBehaviour
             gameObject.transform.position = _startPosition.position;
         }
         else if (newState == States.Scavenge)
-        {
+        {            
             StartCoroutine(GainConsciousness());
             ResetPowerUps();
             //Physics2D.SetLayerCollisionMask(gameObject.layer, _normalCollisionMask);
@@ -140,6 +139,7 @@ public class RobotCharacter : MonoBehaviour
 
     private IEnumerator GainConsciousness()
     {
+        wakeUpSFX.Play();
         var flipVector = new Vector2(-1, 1);
         var wiggleFactor = 0.01f;
         gameObject.transform.localScale *= flipVector;

@@ -22,6 +22,7 @@ public class Rocket : MonoBehaviour
 
     [SerializeField] SpriteRenderer _spriteRenderer;
 
+    [SerializeField] AudioSource thrustSFX;
     [SerializeField] AudioSource crashSFX;
     Dictionary<States, System.Func<IEnumerator>> stateChangeActions = new Dictionary<States, System.Func<IEnumerator>>();
 
@@ -78,6 +79,7 @@ public class Rocket : MonoBehaviour
             _state.State = States.Crash;            
             yield break;
         }
+        thrustSFX.Play();
         while( duration>0 ){
             yield return new WaitForFixedUpdate();
             rocketBody.AddRelativeForce(Vector3.up * thrust*thrustScale,ForceMode2D.Force);
@@ -85,6 +87,8 @@ public class Rocket : MonoBehaviour
             //rocketBody.velocity += Vector2.left * 0.06f *(Mathf.PerlinNoise(transform.position.x/3,transform.position.y/3)-0.5f);
             duration -= Time.fixedDeltaTime;
         }
+        thrustSFX.Stop();
+
         _state.State = States.Falling;
     }
 

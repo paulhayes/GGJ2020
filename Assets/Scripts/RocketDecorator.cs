@@ -10,6 +10,7 @@ public class RocketDecorator : MonoBehaviour
     [SerializeField] RobotPlayerData playerData;
 
     [SerializeField] SpriteRenderer _bodyRenderer;
+    [SerializeField] SpriteRenderer _engineRenderer;
 
     [SerializeField] Sprite[] _engineSprites;
     [SerializeField] Sprite[] _fuelSprites;
