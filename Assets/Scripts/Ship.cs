@@ -35,7 +35,7 @@ public class Ship : MonoBehaviour
 
     public void AddScore(Vector3 scoreVector)
     {
-        playerData.score += scoreVector;
+        playerData.Score += scoreVector;
 
         if (scoreVector != Vector3.zero)
             _source.PlayOneShot(_partBankedSfx);

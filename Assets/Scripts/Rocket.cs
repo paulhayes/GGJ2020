@@ -11,17 +11,16 @@ public class Rocket : MonoBehaviour
     [SerializeField]
     Rigidbody2D rocketBody;
 
-    [SerializeField]
-    RobotPlayerData robotPlayerData;
+    [SerializeField] RobotPlayerData robotPlayerData;
 
-    [SerializeField]
-    float thrustScale;
+    [SerializeField] Explosion explosion;
 
-    [SerializeField]
-    float thrustDuration;
+    [SerializeField] float thrustScale;
 
-    [SerializeField]
-    float groundLevel;
+    [SerializeField] float thrustDuration;
+
+    [SerializeField] float groundLevel;
+
 
     Dictionary<States, System.Func<IEnumerator>> stateChangeActions = new Dictionary<States, System.Func<IEnumerator>>();
 
@@ -57,12 +56,13 @@ public class Rocket : MonoBehaviour
         rocketBody.constraints = RigidbodyConstraints2D.None;
         Debug.Log("Thrust");
         yield return new WaitForSeconds(0.5f);    
-        var score = robotPlayerData.score;    
+        var score = robotPlayerData.Score;    
         var thrust = Mathf.Pow( score.x * score.y * score.z, 1/3f );
         var duration = thrustDuration;
         if( thrust < 1f){
             Debug.Log("No resultant thrust, explode on launchpad!!");
-            thrust = 20;
+            _state.State = States.Crash;            
+            yield break;
         }
         while( duration>0 ){
             yield return new WaitForFixedUpdate();
@@ -83,6 +83,10 @@ public class Rocket : MonoBehaviour
     IEnumerator StartCrash()
     {
         Debug.Log("Crash");
+        yield return explosion.Explode();
+
+        
+
         yield break;
     }
 
@@ -92,7 +96,7 @@ public class Rocket : MonoBehaviour
         }
         if(_state.State==States.Falling)
         {
-            Debug.LogFormat("falling {0}",rocketBody.velocity.y);
+            //Debug.LogFormat("falling {0}",rocketBody.velocity.y);
            
             rocketBody.AddForce(100f*3f*Vector2.down,ForceMode2D.Force);
 

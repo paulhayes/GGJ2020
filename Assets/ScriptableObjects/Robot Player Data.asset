@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce6037fcea05d0499612cf94f8a0df4, type: 3}
   m_Name: Robot Player Data
   m_EditorClassIdentifier: 
-  score: {x: 0, y: 0, z: 0}
-  levelDuration: 2
+  levelDuration: 20

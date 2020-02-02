@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,7 +18,15 @@ public class ScavengeMain : MonoBehaviour
     void Awake()
     {
         Physics2D.gravity = Vector2.zero;
-        playerData.Reset();
+        _gameState.StateChangedEvent += OnGameStateChanged;
+        playerData.GameStart();
+    }
+
+    void OnGameStateChanged(States oldState, States newState)
+    {
+        if(newState==States.Scavenge){
+            playerData.Reset();
+        }
     }
 
     void Update(){
@@ -30,6 +39,11 @@ public class ScavengeMain : MonoBehaviour
                 Finish();
             }
         }
+    }
+
+    void OnDestroy()
+    {
+        playerData.GameEnd();
     }
 
     void Finish()

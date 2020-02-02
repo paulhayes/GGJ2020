@@ -61,15 +61,7 @@ public class RobotCharacter : MonoBehaviour
 
         if (_gameState.State==States.Countdown)
         {
-            if (Vector2.Distance(transform.position, _ship.transform.position) > 0.09f)
-            {
-                vel = (_ship.transform.position - transform.position).normalized * _moveSpeed;
-               
-            }
-            else {
-                 _gameState.State = States.Launch;
-            }
-            
+             vel = (_ship.transform.position - transform.position).normalized * _moveSpeed;            
         }
         else if (_inputEnabled)
         {
@@ -95,9 +87,14 @@ public class RobotCharacter : MonoBehaviour
 
     void OnStateChanged(States oldState, States newState)
     {
-        if(oldState==States.Countdown)
+        _inputEnabled = newState==States.Scavenge;
+        if(newState==States.Launch)
         {
-            _inputEnabled = false;
+            gameObject.SetActive(false);
+        }
+        else if(newState==States.Scavenge) 
+        {
+            gameObject.SetActive(true);
         }
     }
 
@@ -181,14 +178,25 @@ public class RobotCharacter : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (_itemMask != (_itemMask | 1 << collision.gameObject.layer))
-            return;
+        if (_itemMask == (_itemMask | 1 << collision.gameObject.layer))
+        {
 
-        Item item = collision.gameObject.GetComponent<Item>();
+            Item item = collision.gameObject.GetComponent<Item>();
 
-        if (item._pickedUp)
-            return;
+            if (item._pickedUp)
+                return;
 
-        Pickup(item);
+            Pickup(item);
+        }
+        else if(_gameState.State==States.Countdown) 
+        {
+            bool isShip = collision.gameObject.GetComponent<Ship>()!=null;
+            if(isShip){
+                Debug.Log("Reached ship");
+                _gameState.State = States.Launch;
+            }
+        }
+
+         
     }
 }
