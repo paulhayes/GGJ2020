@@ -28,6 +28,10 @@ public class RobotCharacter : MonoBehaviour
 
     [SerializeField] GameObject _emptySlotPfb;
 
+    [SerializeField] LayerMask _normalCollisionMask;
+    [SerializeField] LayerMask _countdownCollisionMask;
+
+
     ItemSlot[] _itemSlots = new ItemSlot[AbsoluteMaximumCarriableItems];
     GameObject[] _emptySlotGfx = new GameObject[AbsoluteMaximumCarriableItems];
 
@@ -121,11 +125,16 @@ public class RobotCharacter : MonoBehaviour
         {
             gameObject.SetActive(true);
             gameObject.transform.position = _startPosition.position;
-            ResetPowerUps();
         }
         else if (newState == States.Scavenge)
         {
             StartCoroutine(GainConsciousness());
+            ResetPowerUps();
+            Physics2D.SetLayerCollisionMask(gameObject.layer, _normalCollisionMask);
+        }
+        else if (newState == States.Countdown)
+        {
+            Physics2D.SetLayerCollisionMask(gameObject.layer, _countdownCollisionMask);
         }
     }
 

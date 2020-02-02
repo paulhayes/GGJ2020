@@ -731,6 +731,12 @@ MonoBehaviour:
   _itemTrailPadding: 0.05
   _emptySlotPfb: {fileID: 6602840680077031325, guid: 04292f6092b2326499b3921134407972,
     type: 3}
+  _normalCollisionMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  _countdownCollisionMask:
+    serializedVersion: 2
+    m_Bits: 2048
 --- !u!50 &4383721239001615889
 Rigidbody2D:
   serializedVersion: 4
