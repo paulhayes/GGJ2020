@@ -9,4 +9,6 @@ public class ObjectRatio
     public GameObject Object => _object;
     [SerializeField] private float _ratio;
     public float Ratio => _ratio;
+    [SerializeField] private bool _rotate;
+    public bool Rotate => _rotate;
 }

@@ -86,6 +86,11 @@ public class RobotCharacter : MonoBehaviour
             var dy = Input.GetAxisRaw("Vertical");
 
             vel = new Vector3(dx, dy, 0).normalized * _moveSpeed * _speedMultiplier;
+
+            if (Math.Abs(dx) > 0.001f || Math.Abs(dy) > 0.001f && IsReady())
+            {
+                _hasMoved = true;
+            }
         }
         else if (_gameState.State==States.Countdown)
         {
@@ -126,7 +131,8 @@ public class RobotCharacter : MonoBehaviour
             gameObject.transform.position = _startPosition.position;
         }
         else if (newState == States.Scavenge)
-        {            
+        {
+            _hasMoved = false;
             StartCoroutine(GainConsciousness());
             ResetPowerUps();
             //Physics2D.SetLayerCollisionMask(gameObject.layer, _normalCollisionMask);
@@ -245,6 +251,7 @@ public class RobotCharacter : MonoBehaviour
         _maxItems = 3;
     }
 
+    private bool _hasMoved = false;
     void UpdateItemTrail()
     {
         Vector3 currentPos = transform.position + (_trailDir * _itemTrailStart);
@@ -257,7 +264,7 @@ public class RobotCharacter : MonoBehaviour
 
             if (_itemSlots[i].item == null)
             {
-                _emptySlotGfx[i].SetActive(_gameState.State == States.Scavenge);
+                _emptySlotGfx[i].SetActive(_gameState.State == States.Scavenge && IsReady() && _hasMoved);
                 slotTransform = _emptySlotGfx[i].transform;
 
                 multiplier = 0.15f;

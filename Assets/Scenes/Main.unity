@@ -239,6 +239,7 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: 44fa708b4df70d34b84b59f422ac7b68, type: 2}
   canvas: {fileID: 93905214}
   battery: {fileID: 295964979}
+  batteryColour: {fileID: 1771624322}
 --- !u!114 &93905217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,6 +672,7 @@ GameObject:
   m_Component:
   - component: {fileID: 506952953}
   - component: {fileID: 506952954}
+  - component: {fileID: 506952955}
   m_Layer: 0
   m_Name: Robot Start Position
   m_TagString: Untagged
@@ -687,7 +689,7 @@ Transform:
   m_GameObject: {fileID: 506952952}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.007, y: 0.661, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 9.52, y: 9.04, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
@@ -705,6 +707,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 174975632}
+--- !u!212 &506952955
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506952952}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.16, y: 0.16}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &519667584
 GameObject:
   m_ObjectHideFlags: 0
@@ -966,47 +1018,60 @@ MonoBehaviour:
     height: 4.2
   _deadZones:
   - {fileID: 174975632}
+  - {fileID: 506952955}
   _craterGrid: {x: 10, y: 3}
   _crater:
     _object: {fileID: 8786473695976569267, guid: acda57bde47c2904f8951a2966fdef05,
       type: 3}
     _ratio: 0.1
+    _rotate: 0
   _craterPositionJitter: {x: 0.25, y: 0.25}
   _objectGrid: {x: 24, y: 8}
   _objectRatios:
   - _object: {fileID: 4170183565795269718, guid: ab9a2e4ffe98fef43a2673a5282235d8,
       type: 3}
     _ratio: 0.05
+    _rotate: 1
   - _object: {fileID: 6404812916834386740, guid: dd19d09433a4e564bb5d8615c36f8a2d,
       type: 3}
     _ratio: 0.02
+    _rotate: 1
   - _object: {fileID: 6162173522741945388, guid: 931ddf4d860012a4cbd75bdabc10343d,
       type: 3}
     _ratio: 0.05
+    _rotate: 1
   - _object: {fileID: 7534620504993821085, guid: 7f762b3505e089e4493c8eaffc47e763,
       type: 3}
     _ratio: 0.02
+    _rotate: 1
   - _object: {fileID: 7534620504993821085, guid: 1d327ac651ca2a34288c4a9254668baf,
       type: 3}
     _ratio: 0.01
+    _rotate: 1
   - _object: {fileID: 140943433625743837, guid: 0314d373ebbd44243bb145c58777e487,
       type: 3}
     _ratio: 0.05
+    _rotate: 1
   - _object: {fileID: 6404812916834386740, guid: 79ad5731a41a6974e8061ce47ba037aa,
       type: 3}
     _ratio: 0.02
+    _rotate: 1
   - _object: {fileID: 271173521182957852, guid: fdf16253bca820a46b213624b286b840,
       type: 3}
     _ratio: 0.01
+    _rotate: 0
   - _object: {fileID: 3086519417213424925, guid: 741b222e8348d0b4a92507671e883851,
       type: 3}
     _ratio: 0.01
+    _rotate: 0
   - _object: {fileID: 4514715130320230001, guid: 22d10803bdc5ba0458a4e9d37106bdde,
       type: 3}
     _ratio: 0.01
+    _rotate: 0
   - _object: {fileID: 8446614467343237972, guid: 288134ba65a54034eaa1e012aaf22821,
       type: 3}
     _ratio: 0.1
+    _rotate: 0
   _objectPositionJitter: {x: 0.05, y: 0.05}
 --- !u!1 &654553329
 GameObject:

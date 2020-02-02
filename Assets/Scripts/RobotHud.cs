@@ -10,6 +10,7 @@ public class RobotHud : MonoBehaviour
 
     [SerializeField] Canvas canvas;
     [SerializeField] private Slider battery;
+    [SerializeField] private Image batteryColour;
 
     Vector3 _hudRelativePos;
 
@@ -62,6 +63,11 @@ public class RobotHud : MonoBehaviour
         if (target.IsReady())
         {
             battery.value = playerData.timeRemaining;
+            batteryColour.color = Color.Lerp(new Color(0.09656461f, 0.6603774f, 0.1849014f), new Color(0.922f, 0.1671421f, 0.1849014f), 1 - battery.value / playerData.levelDuration);
+            if (battery.value < 4)
+            {
+                canvas.enabled = (battery.value % 0.3f) < 0.15f;
+            }
         }
 
         canvas.transform.position = target.transform.position + _hudRelativePos;
