@@ -201,12 +201,15 @@ public class RobotCharacter : MonoBehaviour
 
         for (int i = 0; i < _itemsHeld; i++)
         {
-            Item item = _itemSlots[i].item;
+            Item thisItem = _itemSlots[i].item;
 
-            if (i>0)
-                currentPos += _trailDir * item.transform.localScale.y * (0.3f + _itemTrailPadding);
+            var multiplier = thisItem.transform.localScale.y * 0.15f;
 
-            item.transform.position = Vector3.Lerp(item.transform.position, currentPos, 0.04f);
+            currentPos += (_trailDir * multiplier * 0.5f) /*+ (_trailDir * _itemTrailPadding)*/;
+            thisItem.transform.position = Vector3.Lerp(thisItem.transform.position, currentPos, 0.025f);
+            currentPos += (_trailDir * multiplier * 0.5f) /*+ (_trailDir * _itemTrailPadding)*/;
+
+            Debug.Log($"{i}: {multiplier})");
         }
     }
 
