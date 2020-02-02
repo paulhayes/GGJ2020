@@ -20,6 +20,9 @@ public class Rocket : MonoBehaviour
     [SerializeField]
     float thrustDuration;
 
+    [SerializeField]
+    float groundLevel;
+
     Dictionary<States, System.Func<IEnumerator>> stateChangeActions = new Dictionary<States, System.Func<IEnumerator>>();
 
     void Start()
@@ -79,6 +82,7 @@ public class Rocket : MonoBehaviour
 
     IEnumerator StartCrash()
     {
+        Debug.Log("Crash");
         yield break;
     }
 
@@ -91,6 +95,10 @@ public class Rocket : MonoBehaviour
             Debug.LogFormat("falling {0}",rocketBody.velocity.y);
            
             rocketBody.AddForce(100f*3f*Vector2.down,ForceMode2D.Force);
+
+            if(transform.position.y<groundLevel){
+                _state.State = States.Crash;
+            }
         }
     }
 
