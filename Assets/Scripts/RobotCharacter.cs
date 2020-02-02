@@ -92,6 +92,7 @@ public class RobotCharacter : MonoBehaviour
         if (_gameState.State == States.Begining)
         {
             _body.rotation = 180;
+            _velocity = Vector3.zero;
         }
         if (_gameState.State == States.Scavenge && IsReady())
         {
