@@ -62,7 +62,7 @@ public class LevelSetup : MonoBehaviour
         var availableSpaces = gridPositions.Count;
         
         //Create craters in final positions.
-        CreatePrefabs(gridPositions, availableSpaces, _craterPositionJitter, _crater, cellSize);
+        CreatePrefabs(gridPositions, availableSpaces, _craterPositionJitter, _crater, cellSize, false);
     }
     
     private void SetupLevel()
@@ -77,7 +77,7 @@ public class LevelSetup : MonoBehaviour
         //Create objects in final positions.
         foreach (var objectRatio in _objectRatios)
         {
-            CreatePrefabs(gridPositions, availableSpaces, _objectPositionJitter, objectRatio, cellSize);
+            CreatePrefabs(gridPositions, availableSpaces, _objectPositionJitter, objectRatio, cellSize, true);
         }
     }
     
@@ -95,7 +95,7 @@ public class LevelSetup : MonoBehaviour
         }
     }
 
-    private void CreatePrefabs(Queue<Rect> grid, int availableSpaces, Vector2 jitter, ObjectRatio objectRatio, Vector2 cellSize)
+    private void CreatePrefabs(Queue<Rect> grid, int availableSpaces, Vector2 jitter, ObjectRatio objectRatio, Vector2 cellSize, bool rotate)
     {
         var safeNumberToCreate = Mathf.Min(availableSpaces * objectRatio.Ratio, grid.Count);
         for (var i = 0; i < safeNumberToCreate; i++)
@@ -105,7 +105,7 @@ public class LevelSetup : MonoBehaviour
             var yJitter = Random.Range(-jitter.y, jitter.y);
             var x = cellCoordinates.x + xJitter + cellSize.x / 2;
             var y = cellCoordinates.y + yJitter - cellSize.y / 2;
-            _spawnedObjects.Add( Instantiate(objectRatio.Object, new Vector3(x, y, 0), Quaternion.identity) );
+            _spawnedObjects.Add( Instantiate(objectRatio.Object, new Vector3(x, y, 0), rotate ? Quaternion.Euler(0, 0, Random.value * 360) : Quaternion.identity));
         }
     }
 
