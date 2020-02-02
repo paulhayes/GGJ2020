@@ -22,7 +22,8 @@ public class RobotPlayerData : ScriptableObject
         }
         set {
             _score = value;
-            ScoreChangedEvent(_score);
+            if(ScoreChangedEvent!=null) 
+                ScoreChangedEvent(_score);
         }
     }
     public float levelDuration = 30f;
