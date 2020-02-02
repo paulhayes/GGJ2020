@@ -28,8 +28,10 @@ public class RobotCharacter : MonoBehaviour
     [SerializeField] float _itemTrailStart;
     [SerializeField] float _itemTrailPadding;
 
-    [SerializeField] GameObject _emptySlotPfb;
+    [SerializeField] GameObject[] _walkFrames;
+    [SerializeField] float _walkAnimSpeed;
 
+    [SerializeField] GameObject _emptySlotPfb;
 
     ItemSlot[] _itemSlots = new ItemSlot[AbsoluteMaximumCarriableItems];
     GameObject[] _emptySlotGfx = new GameObject[AbsoluteMaximumCarriableItems];
@@ -39,7 +41,12 @@ public class RobotCharacter : MonoBehaviour
 
     float _speedMultiplier = 1;
 
+    float _walkAnimTimer;
+
+    int _walkIndex = 0;
+
     Vector3 _trailDir;
+    Vector3 _velocity;
 
     void Awake()
     {
@@ -71,32 +78,41 @@ public class RobotCharacter : MonoBehaviour
         transform.position = _startPosition.position;
     }
 
+    void Update()
+    {
+        if (_velocity != Vector3.zero)
+            _walkAnimTimer -= Time.deltaTime;
+
+        if (_walkAnimTimer <= 0)
+            SwitchWalkSprites();
+    }
+
     void FixedUpdate()
     {
-        Vector3 vel = Vector3.zero;
-
-        if(_gameState.State==States.Begining)
+        if (_gameState.State == States.Begining)
         {
             _body.rotation = 180;
         }
-        if (_gameState.State==States.Scavenge && IsReady())
+        if (_gameState.State == States.Scavenge && IsReady())
         {
             _body.rotation = 0;
             var dx = Input.GetAxisRaw("Horizontal");
             var dy = Input.GetAxisRaw("Vertical");
 
-            vel = new Vector3(dx, dy, 0).normalized * _moveSpeed * _speedMultiplier;
+            _velocity = new Vector3(dx, dy, 0).normalized * _moveSpeed * _speedMultiplier;
         }
-        else if (_gameState.State==States.Countdown)
+        else if (_gameState.State == States.Countdown)
         {
-             vel = (_ship.transform.position - transform.position).normalized * _moveSpeed;            
+            _velocity = (_ship.transform.position - transform.position).normalized * _moveSpeed;
         }
 
 
-        if (vel != Vector3.zero)
-            _trailDir = -vel.normalized;
+        if (_velocity != Vector3.zero)
+        {
+            _trailDir = -_velocity.normalized;
+        }
 
-        _body.velocity = 2*vel / (GetSumItemMass() +_body.mass);
+        _body.velocity = 2* _velocity / (GetSumItemMass() +_body.mass);
     }
 
     void LateUpdate()
@@ -111,6 +127,22 @@ public class RobotCharacter : MonoBehaviour
         //}
 
         UpdateItemTrail();
+    }
+
+    void SwitchWalkSprites()
+    {
+        _walkFrames[_walkIndex].SetActive(false);
+
+        _walkIndex++;
+
+        if (_walkIndex >= _walkFrames.Length)
+            _walkIndex = 0;
+
+        _walkFrames[_walkIndex].SetActive(true);
+
+        _walkAnimTimer = _walkAnimSpeed;
+
+        Debug.Log(_walkIndex);
     }
 
     void OnStateChanged(States oldState, States newState)
