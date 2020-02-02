@@ -15,6 +15,9 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     float rocketSpeedToCameraDistance;
 
+    [SerializeField]
+    float maxCamDistance;
+
     Vector3 cameraToShipPos;
 
     void Awake()
@@ -23,7 +26,7 @@ public class CameraController : MonoBehaviour
     }
 
     void FixedUpdate(){
-        Vector3 destPos = ( _rocket.transform.position + cameraToShipPos ) + new Vector3(0,0,-rocketSpeedToCameraDistance*_rocketBody.velocity.magnitude);
+        Vector3 destPos = ( _rocket.transform.position + cameraToShipPos ) + new Vector3(0,0,-Mathf.Clamp(rocketSpeedToCameraDistance*_rocketBody.velocity.y,0,maxCamDistance));
         transform.position += 0.3f * ( destPos - transform.position );        
     }
 }

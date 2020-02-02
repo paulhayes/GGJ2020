@@ -57,15 +57,18 @@ public class Rocket : MonoBehaviour
         var score = robotPlayerData.score;    
         var thrust = Mathf.Pow( score.x * score.y * score.z, 1/3f );
         var duration = thrustDuration;
-        if( thrust == 0){
+        if( thrust < 1f){
             Debug.Log("No resultant thrust, explode on launchpad!!");
             thrust = 20;
         }
         while( duration>0 ){
             yield return new WaitForFixedUpdate();
-            rocketBody.AddForce(new Vector3(0,thrust*thrustScale,0),ForceMode2D.Force);
+            rocketBody.AddRelativeForce(Vector3.up * thrust*thrustScale,ForceMode2D.Force);
+            rocketBody.angularVelocity += 0.06f *(Mathf.PerlinNoise(transform.position.x/3,transform.position.y/3)-0.5f);
+            //rocketBody.velocity += Vector2.left * 0.06f *(Mathf.PerlinNoise(transform.position.x/3,transform.position.y/3)-0.5f);
             duration -= Time.fixedDeltaTime;
         }
+        _state.State = States.Falling;
     }
 
     IEnumerator StartFalling()
@@ -79,10 +82,15 @@ public class Rocket : MonoBehaviour
         yield break;
     }
 
-    void Update(){
+    void FixedUpdate(){
+        if(rocketBody.velocity.magnitude > 1f){
+            rocketBody.rotation = Vector2.SignedAngle(Vector2.up,rocketBody.velocity);
+        }
         if(_state.State==States.Falling)
         {
-            
+            Debug.LogFormat("falling {0}",rocketBody.velocity.y);
+           
+            rocketBody.AddForce(100f*3f*Vector2.down,ForceMode2D.Force);
         }
     }
 
