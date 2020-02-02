@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 4170183565795269716}
   - component: {fileID: 4170183565795269739}
   - component: {fileID: 1866864189111134895}
-  - component: {fileID: 2154112081011822511}
   - component: {fileID: 3321479758126539028}
   m_Layer: 9
   m_Name: Part_Aerodynamic
@@ -151,19 +150,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _part: {fileID: 4170183565795269739}
---- !u!114 &2154112081011822511
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4170183565795269718}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c61f5ad72b7f4874ab0d35d5352a93e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _size: {x: 0.1, y: 0.1}
 --- !u!50 &3321479758126539028
 Rigidbody2D:
   serializedVersion: 4

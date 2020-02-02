@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 140943433625743835}
   - component: {fileID: 140943433625743814}
   - component: {fileID: 5335678186631395646}
-  - component: {fileID: -2754767672040381903}
   m_Layer: 9
   m_Name: Part_Fuel
   m_TagString: Untagged
@@ -150,16 +149,3 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _part: {fileID: 140943433625743814}
---- !u!114 &-2754767672040381903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 140943433625743837}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7eeaca32a4e241ac87b8cf78e8157f71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _size: {x: 0.1, y: 0.1}
