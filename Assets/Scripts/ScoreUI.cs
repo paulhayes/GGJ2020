@@ -23,7 +23,7 @@ public class ScoreUI : MonoBehaviour
     void Update()
     {
         for(int i=0;i<valueSlider.Length;i++){
-            valueSlider[i].value = playerData.score[i];
+            valueSlider[i].value = Mathf.Lerp(valueSlider[i].value, playerData.score[i], 0.5f);
         }
         
         timerSlider.value = playerData.timeRemaining;
