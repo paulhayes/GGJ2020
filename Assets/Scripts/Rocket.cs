@@ -26,7 +26,8 @@ public class Rocket : MonoBehaviour
 
     void Start()
     {
-        _state.StateChangedEvent += OnChanged;
+        _state.StateChangedEvent += OnGameStateChanged;
+        robotPlayerData.ScoreChangedEvent += OnScoreChanged;
         stateChangeActions.Add(States.Scavenge,StartScavenging);
         stateChangeActions.Add(States.Falling,StartFalling);
         stateChangeActions.Add(States.Crash,StartCrash);
@@ -34,9 +35,14 @@ public class Rocket : MonoBehaviour
 
     }
 
+    private void OnScoreChanged(Vector3 score)
+    {
+        if(score.z>0){
+            rocketBody.rotation = 0;
+        }
+    }
 
-
-    void OnChanged(States oldState, States newState)
+    void OnGameStateChanged(States oldState, States newState)
     {
         //Debug.LogFormat("{0} {1}",oldState,newState);
         if (stateChangeActions.ContainsKey(newState))
@@ -82,12 +88,11 @@ public class Rocket : MonoBehaviour
 
     IEnumerator StartCrash()
     {
+        rocketBody.constraints = RigidbodyConstraints2D.FreezeAll;
         Debug.Log("Crash");
         yield return explosion.Explode();
-
-        
-
-        yield break;
+        yield return new WaitForSeconds(0.1f);
+        _state.State = States.Scavenge;
     }
 
     void FixedUpdate(){

@@ -18,6 +18,8 @@ public class LevelSetup : MonoBehaviour
     [SerializeField] private ObjectRatio[] _objectRatios;
     [SerializeField] private Vector2 _objectPositionJitter;
 
+    List<GameObject> _spawnedObjects = new List<GameObject>(1024);
+
     private void OnEnable()
     {
         _gameState.StateChangedEvent += OnStateChange;
@@ -36,8 +38,16 @@ public class LevelSetup : MonoBehaviour
             {
                 Debug.LogError("Some items will not be assigned because the object ratios are oversubscribed.");
             }
+            RemoveSpawned();
             SetupMoonFeatures();
             SetupLevel();
+        }
+    }
+
+    private void RemoveSpawned()
+    {
+        foreach(var spawned in _spawnedObjects){
+            Destroy(spawned);
         }
     }
 
@@ -84,7 +94,7 @@ public class LevelSetup : MonoBehaviour
         }
     }
 
-    private static void CreatePrefabs(Queue<Rect> grid, int availableSpaces, Vector2 jitter, ObjectRatio objectRatio, Vector2 cellSize)
+    private void CreatePrefabs(Queue<Rect> grid, int availableSpaces, Vector2 jitter, ObjectRatio objectRatio, Vector2 cellSize)
     {
         var safeNumberToCreate = Mathf.Min(availableSpaces * objectRatio.Ratio, grid.Count);
         for (var i = 0; i < safeNumberToCreate; i++)
@@ -94,7 +104,7 @@ public class LevelSetup : MonoBehaviour
             var yJitter = Random.Range(-jitter.y, jitter.y);
             var x = cellCoordinates.x + xJitter + cellSize.x / 2;
             var y = cellCoordinates.y + yJitter - cellSize.y / 2;
-            Instantiate(objectRatio.Object, new Vector3(x, y, 0), Quaternion.identity);
+            _spawnedObjects.Add( Instantiate(objectRatio.Object, new Vector3(x, y, 0), Quaternion.identity) );
         }
     }
 

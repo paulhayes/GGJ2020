@@ -188,15 +188,19 @@ public class RobotCharacter : MonoBehaviour
 
             Pickup(item);
         }
-        else if(_gameState.State==States.Countdown) 
+
+         
+    }
+
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        if(_gameState.State==States.Countdown) 
         {
-            bool isShip = collision.gameObject.GetComponent<Ship>()!=null;
-            if(isShip){
+            bool collidedWithShip = collision.gameObject.GetComponent<Ship>()!=null;
+            if(collidedWithShip){
                 Debug.Log("Reached ship");
                 _gameState.State = States.Launch;
             }
         }
-
-         
     }
 }
