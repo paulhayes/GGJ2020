@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -56,7 +55,14 @@ public class Rocket : MonoBehaviour
     private IEnumerator StartScavenging()
     {
         rocketBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
-        yield break;
+        yield return new WaitForSeconds(2);
+        _isReady = true;
+    }
+
+    private bool _isReady;
+    public bool IsReady()
+    {
+        return _isReady;
     }
 
     IEnumerator StartLaunch()

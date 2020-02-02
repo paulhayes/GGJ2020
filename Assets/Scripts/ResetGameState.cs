@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,16 @@ public class ResetGameState : MonoBehaviour
     {
         gameState.Reset();
     }
+    
+    #if DEBUG
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            ++gameState.State;
+        }
+    }
+#endif
 
     void OnDestroy(){
         gameState.Stopped();

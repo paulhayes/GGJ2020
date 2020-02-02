@@ -40,6 +40,8 @@ public class RobotCharacter : MonoBehaviour
 
     void Awake()
     {
+        _gameState.StateChangedEvent += OnStateChanged;
+        
         for(int i=0;i<AbsoluteMaximumCarriableItems;i++){
             _itemSlots[i] = new ItemSlot();
             _emptySlotGfx[i] = Instantiate(_emptySlotPfb);
@@ -51,10 +53,14 @@ public class RobotCharacter : MonoBehaviour
             Destroy(gameObject);
     }
 
+    private void OnDestroy()
+    {
+        _gameState.StateChangedEvent -= OnStateChanged;
+    }
+
     void Start()
     {
         Reset();
-        _gameState.StateChangedEvent += OnStateChanged;
     }
 
     public void Reset()
@@ -70,7 +76,7 @@ public class RobotCharacter : MonoBehaviour
         {
             _body.rotation = 180;
         }
-        if (_gameState.State==States.Scavenge)
+        if (_gameState.State==States.Scavenge && IsReady())
         {
             _body.rotation = 0;
             var dx = Input.GetAxisRaw("Horizontal");
@@ -109,6 +115,7 @@ public class RobotCharacter : MonoBehaviour
         if(newState==States.Launch)
         {
             gameObject.SetActive(false);
+            _isReady = false;
         }
         else if(newState==States.Begining) 
         {
@@ -116,6 +123,34 @@ public class RobotCharacter : MonoBehaviour
             gameObject.transform.position = _startPosition.position;
             ResetPowerUps();
         }
+        else if (newState == States.Scavenge)
+        {
+            StartCoroutine(GainConsciousness());
+        }
+    }
+
+    private IEnumerator GainConsciousness()
+    {
+        var flipVector = new Vector2(-1, 1);
+        var wiggleFactor = 0.01f;
+        gameObject.transform.localScale *= flipVector;
+        yield return new WaitForSeconds(0.18f);
+        gameObject.transform.localScale *= flipVector;
+        yield return new WaitForSeconds(0.18f);
+        gameObject.transform.localScale *= flipVector;
+        yield return new WaitForSeconds(0.18f);
+        gameObject.transform.position += Vector3.left * wiggleFactor;
+        yield return new WaitForSeconds(0.06f);
+        gameObject.transform.position += Vector3.right * wiggleFactor;
+        yield return new WaitForSeconds(0.06f);
+        gameObject.transform.position += Vector3.left * wiggleFactor;
+        yield return new WaitForSeconds(0.06f);
+        gameObject.transform.position += Vector3.right * wiggleFactor;
+        yield return new WaitForSeconds(0.25f);
+        gameObject.transform.localScale *= flipVector;
+        gameObject.transform.rotation = Quaternion.identity;
+        
+        _isReady = true;
     }
 
 
@@ -264,6 +299,12 @@ public class RobotCharacter : MonoBehaviour
                 _gameState.State = States.Launch;
             }
         }
+    }
+
+    private bool _isReady;
+    public bool IsReady()
+    {
+        return _isReady;
     }
 }
 

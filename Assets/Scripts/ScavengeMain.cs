@@ -39,7 +39,7 @@ public class ScavengeMain : MonoBehaviour
                 _gameState.State = States.Scavenge;
             }
         }
-        else if (_gameState.State == States.Scavenge)
+        else if (_gameState.State == States.Scavenge && robot.IsReady())
         {
             playerData.timeRemaining -= Time.deltaTime;
             if (playerData.timeRemaining < 0)
