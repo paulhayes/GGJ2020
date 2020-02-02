@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -581,8 +581,9 @@ MonoBehaviour:
   - {fileID: 174975632}
   _craterGrid: {x: 10, y: 3}
   _crater:
-    _object: {fileID: 0}
-    _ratio: 0
+    _object: {fileID: 8786473695976569267, guid: acda57bde47c2904f8951a2966fdef05,
+      type: 3}
+    _ratio: 0.1
   _craterPositionJitter: {x: 0.25, y: 0.25}
   _objectGrid: {x: 50, y: 15}
   _objectRatios:
@@ -2341,6 +2342,7 @@ MonoBehaviour:
   _rocket: {fileID: 563261086}
   _rocketBody: {fileID: 563261085}
   rocketSpeedToCameraDistance: 1
+  maxCamDistance: 0
 --- !u!1 &1762797430
 GameObject:
   m_ObjectHideFlags: 0
@@ -2816,7 +2818,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4383721240262169099
 PrefabInstance:
