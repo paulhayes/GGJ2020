@@ -49,6 +49,7 @@ public class LevelSetup : MonoBehaviour
         foreach(var spawned in _spawnedObjects){
             Destroy(spawned);
         }
+        _spawnedObjects.Clear();
     }
 
     private void SetupMoonFeatures()
