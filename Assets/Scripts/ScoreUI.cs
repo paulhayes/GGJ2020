@@ -32,6 +32,12 @@ public class ScoreUI : MonoBehaviour
     void OnGameStateChanged(States oldState, States newState)
     {
         timerSlider.gameObject.SetActive( _gameState.State == States.Scavenge );
+        altitudeReachedField.enabled = _gameState.State == States.Launch || _gameState.State == States.Falling || _gameState.State == States.Begining;
+        if(newState==States.Crash && (playerData.maxAltitudeReached<playerData.altitudeReached))
+        {
+            playerData.maxAltitudeReached = playerData.altitudeReached;
+        }
+        
     }
 
     void Start()
@@ -48,9 +54,9 @@ public class ScoreUI : MonoBehaviour
         
         timerSlider.value = playerData.timeRemaining;
 
-        if(lastHeightDisplayed != playerData.altitudeReached){
-            lastHeightDisplayed = playerData.altitudeReached;
-
+        var altToDisplay = (_gameState.State == States.Begining) ? playerData.maxAltitudeReached : playerData.altitudeReached;
+        if(lastHeightDisplayed != altToDisplay){
+            lastHeightDisplayed = altToDisplay;
             altitudeReachedField.text = Mathf.Round(lastHeightDisplayed*1000).ToString();
         }
     }
