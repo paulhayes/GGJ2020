@@ -97,13 +97,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c2b93083970204cb3b51114e23a5db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerData: {fileID: 0}
+  _playerData: {fileID: 11400000, guid: 44fa708b4df70d34b84b59f422ac7b68, type: 2}
   _moveSpeed: 2.5
   _body: {fileID: 4383721239001615889}
   _ship: {fileID: 0}
   _startPosition: {fileID: 0}
   _source: {fileID: 4383721239001615895}
   _partPickupSfx: {fileID: 8300000, guid: d4ab42f2fc0f61c4fa9f9ece5a553fcc, type: 3}
+  _itemMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!50 &4383721239001615889
 Rigidbody2D:
   serializedVersion: 4

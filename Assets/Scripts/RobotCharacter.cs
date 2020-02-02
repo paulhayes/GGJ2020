@@ -22,6 +22,8 @@ public class RobotCharacter : MonoBehaviour
     [SerializeField] AudioSource _source;
     [SerializeField] AudioClip _partPickupSfx;
 
+    [SerializeField] LayerMask _itemMask;
+
     bool _inputEnabled = true;
 
     Item[] _itemSlots;
@@ -108,6 +110,8 @@ public class RobotCharacter : MonoBehaviour
         item._pickedUp = true;
         item._dragOffset = item.transform.position-transform.position;
 
+        item._collider.enabled = false;
+
         _itemSlots[_itemsHeld] = item;
         _itemsHeld++;
 
@@ -173,5 +177,18 @@ public class RobotCharacter : MonoBehaviour
                 _playerData.timeRemaining = Mathf.Clamp((_playerData.timeRemaining + _playerData.levelDuration / 3f), 0, _playerData.levelDuration);
                 break;
         }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (_itemMask != (_itemMask | 1 << collision.gameObject.layer))
+            return;
+
+        Item item = collision.gameObject.GetComponent<Item>();
+
+        if (item._pickedUp)
+            return;
+
+        Pickup(item);
     }
 }

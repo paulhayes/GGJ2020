@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,11 +25,14 @@ public class Rocket : MonoBehaviour
     void Start()
     {
         _state.StateChangedEvent += OnChanged;
+        stateChangeActions.Add(States.Scavenge,StartScavenging);
         stateChangeActions.Add(States.Falling,StartFalling);
         stateChangeActions.Add(States.Crash,StartCrash);
         stateChangeActions.Add(States.Launch,StartLaunch);
 
     }
+
+
 
     void OnChanged(States oldState, States newState)
     {
@@ -39,8 +43,15 @@ public class Rocket : MonoBehaviour
         }
     }
 
+    private IEnumerator StartScavenging()
+    {
+        rocketBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+        yield break;
+    }
+
     IEnumerator StartLaunch()
     {
+        rocketBody.constraints = RigidbodyConstraints2D.None;
         Debug.Log("Thrust");
         yield return new WaitForSeconds(0.5f);    
         var score = robotPlayerData.score;    
