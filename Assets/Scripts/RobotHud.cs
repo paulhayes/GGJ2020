@@ -68,6 +68,10 @@ public class RobotHud : MonoBehaviour
             {
                 canvas.enabled = (battery.value % 0.3f) < 0.15f;
             }
+            else
+            {
+                canvas.enabled = true;
+            }
         }
 
         canvas.transform.position = target.transform.position + _hudRelativePos;
