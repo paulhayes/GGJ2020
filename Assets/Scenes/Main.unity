@@ -806,9 +806,9 @@ MonoBehaviour:
   _gameState: {fileID: 11400000, guid: bff33d099c8739d47b3447d8e47f359e, type: 2}
   _levelBoundary:
     serializedVersion: 2
-    x: -6
-    y: 1.2
-    width: 12
+    x: -4.15
+    y: 1.5
+    width: 8.3
     height: 4
   _deadZones:
   - {fileID: 174975632}
