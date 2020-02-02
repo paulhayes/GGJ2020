@@ -132,18 +132,17 @@ public class RobotCharacter : MonoBehaviour
                 PartItem partItem = (PartItem)item;
 
                 scoreDelta += partItem._part.values;
-                Destroy(item.gameObject);
-
-                continue;
             }
-
-            if (item is PowerUpItem)
+            else if (item is PowerUpItem)
             {
                 PowerUpItem powUpItem = (PowerUpItem)item;
 
                 ApplyPowerUp(powUpItem);
-                Destroy(item.gameObject);
+                            
             }
+            
+            // get destroyed by the spawner at the begining of next level
+            item.gameObject.SetActive(false);    
         }
 
         ship.AddScore(scoreDelta);

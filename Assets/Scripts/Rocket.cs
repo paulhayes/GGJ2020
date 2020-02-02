@@ -21,7 +21,7 @@ public class Rocket : MonoBehaviour
 
     [SerializeField] float groundLevel;
 
-
+    [SerializeField] AudioSource crashSFX;
     Dictionary<States, System.Func<IEnumerator>> stateChangeActions = new Dictionary<States, System.Func<IEnumerator>>();
 
     void Start()
@@ -90,6 +90,7 @@ public class Rocket : MonoBehaviour
     {
         rocketBody.constraints = RigidbodyConstraints2D.FreezeAll;
         Debug.Log("Crash");
+        crashSFX.Play();
         yield return explosion.Explode();
         yield return new WaitForSeconds(0.1f);
         _state.State = States.Scavenge;

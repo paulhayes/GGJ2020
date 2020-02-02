@@ -544,6 +544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerData: {fileID: 11400000, guid: 44fa708b4df70d34b84b59f422ac7b68, type: 2}
+  _gameState: {fileID: 11400000, guid: bff33d099c8739d47b3447d8e47f359e, type: 2}
   _moveSpeed: 2.5
   _body: {fileID: 4383721239001615889}
   _ship: {fileID: 0}

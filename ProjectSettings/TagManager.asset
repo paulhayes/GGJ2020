@@ -47,3 +47,6 @@ TagManager:
   - name: ForegroundElement
     uniqueID: 4219962531
     locked: 0
+  - name: HUD
+    uniqueID: 24435665
+    locked: 0

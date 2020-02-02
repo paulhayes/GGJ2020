@@ -6,39 +6,33 @@ public class Ship : MonoBehaviour
 {
     [SerializeField] LayerMask _playerMask;
 
-    [SerializeField]
-    RobotPlayerData playerData;
+    [SerializeField] RobotPlayerData playerData;
 
     [SerializeField] AudioSource _source;
-    [SerializeField] AudioClip _partBankedSfx;
-    
-    void Start()
-    {
-        
-    }
+    [SerializeField] AudioSource[] repairSFX;
 
-    void Update()
-    {
-        
-    }
 
-    /*void OnCollisionEnter2D(Collision2D collision)
+    public void AddScore(Vector3 scoreDelta)
     {
-        Debug.Log("collision");
-        Debug.Log( collision.gameObject );
-        var part = collision.gameObject.GetComponent<Part>();
-        if(part){
-            playerData.score += part.values;
-            part.gameObject.SetActive(false);
+        playerData.Score += scoreDelta;
+
+        if (scoreDelta != Vector3.zero){
+            StartCoroutine( PlayRepairSFX(scoreDelta) );
         }
-    }*/
+           
+    }
 
-    public void AddScore(Vector3 scoreVector)
+    IEnumerator PlayRepairSFX(Vector3 score)
     {
-        playerData.Score += scoreVector;
-
-        if (scoreVector != Vector3.zero)
-            _source.PlayOneShot(_partBankedSfx);
+        for(int i=0;i<3;i++){
+            if(!repairSFX[i].clip)
+                continue;
+            if(score[i]>0){
+                repairSFX[i].Play();
+            }
+            
+            yield return new WaitForSeconds( repairSFX[i].clip.length );
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -47,7 +41,5 @@ public class Ship : MonoBehaviour
         {
             RobotCharacter._instance.BankItems(this);
         }
-        
-        
     }
 }
