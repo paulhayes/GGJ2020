@@ -40,6 +40,8 @@ public class RobotCharacter : MonoBehaviour
 
     void Awake()
     {
+        _gameState.StateChangedEvent += OnStateChanged;
+        
         for(int i=0;i<AbsoluteMaximumCarriableItems;i++){
             _itemSlots[i] = new ItemSlot();
             _emptySlotGfx[i] = Instantiate(_emptySlotPfb);
@@ -51,10 +53,14 @@ public class RobotCharacter : MonoBehaviour
             Destroy(gameObject);
     }
 
+    private void OnDestroy()
+    {
+        _gameState.StateChangedEvent -= OnStateChanged;
+    }
+
     void Start()
     {
         Reset();
-        _gameState.StateChangedEvent += OnStateChanged;
     }
 
     public void Reset()
@@ -70,7 +76,7 @@ public class RobotCharacter : MonoBehaviour
         {
             _body.rotation = 180;
         }
-        if (_gameState.State==States.Scavenge)
+        if (_gameState.State==States.Scavenge && IsReady())
         {
             _body.rotation = 0;
             var dx = Input.GetAxisRaw("Horizontal");
@@ -109,6 +115,7 @@ public class RobotCharacter : MonoBehaviour
         if(newState==States.Launch)
         {
             gameObject.SetActive(false);
+            _isReady = false;
         }
         else if(newState==States.Begining) 
         {
@@ -116,6 +123,34 @@ public class RobotCharacter : MonoBehaviour
             gameObject.transform.position = _startPosition.position;
             ResetPowerUps();
         }
+        else if (newState == States.Scavenge)
+        {
+            StartCoroutine(GainConsciousness());
+        }
+    }
+
+    private IEnumerator GainConsciousness()
+    {
+        var flipVector = new Vector2(-1, 1);
+        var wiggleFactor = 0.01f;
+        gameObject.transform.localScale *= flipVector;
+        yield return new WaitForSeconds(0.18f);
+        gameObject.transform.localScale *= flipVector;
+        yield return new WaitForSeconds(0.18f);
+        gameObject.transform.localScale *= flipVector;
+        yield return new WaitForSeconds(0.18f);
+        gameObject.transform.position += Vector3.left * wiggleFactor;
+        yield return new WaitForSeconds(0.06f);
+        gameObject.transform.position += Vector3.right * wiggleFactor;
+        yield return new WaitForSeconds(0.06f);
+        gameObject.transform.position += Vector3.left * wiggleFactor;
+        yield return new WaitForSeconds(0.06f);
+        gameObject.transform.position += Vector3.right * wiggleFactor;
+        yield return new WaitForSeconds(0.25f);
+        gameObject.transform.localScale *= flipVector;
+        gameObject.transform.rotation = Quaternion.identity;
+        
+        _isReady = true;
     }
 
 
@@ -209,18 +244,28 @@ public class RobotCharacter : MonoBehaviour
         {
             Transform slotTransform;
 
+            float multiplier;
+
             if (_itemSlots[i].item == null)
             {
                 _emptySlotGfx[i].SetActive(_gameState.State == States.Scavenge);
                 slotTransform = _emptySlotGfx[i].transform;
+
+                multiplier = 0.15f;
             }
             else
             {
                 _emptySlotGfx[i].SetActive(false);
                 slotTransform = _itemSlots[i].item.transform;
+
+                var size = _itemSlots[i].item.GetSize();
+
+                multiplier = size.y;
+
+                Debug.Log(size);
             }
 
-            var multiplier = slotTransform.localScale.y * 0.15f;
+
 
             currentPos += (_trailDir * multiplier * 0.5f) /*+ (_trailDir * _itemTrailPadding)*/;
             slotTransform.position = _emptySlotGfx[i].transform.position = Vector3.Lerp(slotTransform.position, currentPos, 0.025f);
@@ -254,6 +299,12 @@ public class RobotCharacter : MonoBehaviour
                 _gameState.State = States.Launch;
             }
         }
+    }
+
+    private bool _isReady;
+    public bool IsReady()
+    {
+        return _isReady;
     }
 }
 

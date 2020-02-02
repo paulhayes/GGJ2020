@@ -234,8 +234,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5067508b0dce4804dbc15804bb9876ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 499667455}
+  _gameState: {fileID: 11400000, guid: bff33d099c8739d47b3447d8e47f359e, type: 2}
+  target: {fileID: 1429183513}
+  playerData: {fileID: 0}
   canvas: {fileID: 93905214}
+  battery: {fileID: 295964979}
 --- !u!114 &93905217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -658,12 +661,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!4 &499667455 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4383721239001615891, guid: e0369c4e2870f854f9f7d1e838b214bb,
-    type: 3}
-  m_PrefabInstance: {fileID: 4383721240262169099}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &506952952
 GameObject:
   m_ObjectHideFlags: 0
@@ -2210,10 +2207,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1170030699}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5067508b0dce4804dbc15804bb9876ca, type: 3}
+  m_Script: {fileID: 11500000, guid: ab6425991d254f1d90b505e970eda872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1764473914}
+  rocket: {fileID: 563261086}
   canvas: {fileID: 1170030702}
 --- !u!1 &1387717506
 GameObject:
@@ -2919,12 +2916,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1764473914 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2035951965729635414, guid: 06e8022fe194b324ba50c35273621ca4,
-    type: 3}
-  m_PrefabInstance: {fileID: 2035951966543955158}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1771624320
 GameObject:
   m_ObjectHideFlags: 0
