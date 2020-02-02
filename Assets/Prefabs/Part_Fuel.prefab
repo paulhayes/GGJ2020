@@ -142,10 +142,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83b5fce3d6549154d867525406a190ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pickedUp: 0
-  _dragOffset: {x: 0, y: 0}
   _collider: {fileID: 140943433625743835}
-  _canCollect:
-    serializedVersion: 2
-    m_Bits: 256
   _part: {fileID: 140943433625743814}

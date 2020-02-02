@@ -68,7 +68,7 @@ public class RobotCharacter : MonoBehaviour
             vel = new Vector3(dx, dy, 0).normalized * _moveSpeed * _speedMultiplier;
         }
 
-        _body.velocity = vel;
+        _body.velocity = 2*vel / (GetSumItemMass() +_body.mass);
     }
 
     void LateUpdate()
@@ -146,6 +146,15 @@ public class RobotCharacter : MonoBehaviour
         ship.AddScore(scoreDelta);
 
         _itemsHeld = 0;
+    }
+
+    float GetSumItemMass()
+    {
+        float sum = 0;
+        for(int i=0;i<_itemsHeld;i++){
+            sum += +_itemSlots[i].item.weight;
+        }
+        return sum;
     }
 
     void ApplyPowerUp(PowerUpItem powUpItem)

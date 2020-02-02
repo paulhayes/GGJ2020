@@ -6,6 +6,8 @@ public class Item : MonoBehaviour
 {
     bool _pickedUp = false;
 
+    public float weight = 1;
+
     [SerializeField] Collider2D _collider;
 
     void Start()

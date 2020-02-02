@@ -129,12 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdbf339b4566fa74483626a44aeb38eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pickedUp: 0
-  _dragOffset: {x: 0, y: 0}
   _collider: {fileID: 3086519417213424923}
-  _canCollect:
-    serializedVersion: 2
-    m_Bits: 256
   _type: 1
 --- !u!1 &3410721779084633132
 GameObject:

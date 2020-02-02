@@ -11,10 +11,9 @@ GameObject:
   - component: {fileID: 6404812916834386767}
   - component: {fileID: 6404812916834386760}
   - component: {fileID: 6404812916834386761}
-  - component: {fileID: 6404812916834386762}
   - component: {fileID: 6404812916834386763}
   - component: {fileID: -8707959751272916412}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Part Body Val2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,11 +70,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -75004765
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0.26125845, g: 0.5377358, b: 0.29742256, a: 1}
+  m_Color: {r: 0.21537916, g: 0.46783575, b: 0.8301887, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -118,27 +117,6 @@ PolygonCollider2D:
       - {x: 0.06862521, y: -0.04060024}
       - {x: 0.067287326, y: 0.04658568}
       - {x: 0.044294357, y: 0.06862724}
---- !u!50 &6404812916834386762
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6404812916834386740}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 2
-  m_LinearDrag: 5.54
-  m_AngularDrag: 3.67
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!114 &6404812916834386763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74159af6ec022e7408eafbd2d4680c27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  values: {x: 0, y: 0, z: 2}
+  values: {x: 0, y: 0, z: 4}
 --- !u!114 &-8707959751272916412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,10 +142,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83b5fce3d6549154d867525406a190ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pickedUp: 0
-  _dragOffset: {x: 0, y: 0}
+  weight: 4
   _collider: {fileID: 6404812916834386761}
-  _canCollect:
-    serializedVersion: 2
-    m_Bits: 256
-  _part: {fileID: 140943433625743814, guid: 0314d373ebbd44243bb145c58777e487, type: 3}
+  _part: {fileID: 6404812916834386763}

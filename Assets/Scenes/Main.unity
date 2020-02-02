@@ -818,17 +818,35 @@ MonoBehaviour:
       type: 3}
     _ratio: 0.1
   _craterPositionJitter: {x: 0.25, y: 0.25}
-  _objectGrid: {x: 25, y: 15}
+  _objectGrid: {x: 24, y: 8}
   _objectRatios:
   - _object: {fileID: 4170183565795269718, guid: ab9a2e4ffe98fef43a2673a5282235d8,
       type: 3}
     _ratio: 0.05
+  - _object: {fileID: 6404812916834386740, guid: dd19d09433a4e564bb5d8615c36f8a2d,
+      type: 3}
+    _ratio: 0.02
   - _object: {fileID: 6162173522741945388, guid: 931ddf4d860012a4cbd75bdabc10343d,
       type: 3}
     _ratio: 0.05
+  - _object: {fileID: 7534620504993821085, guid: 7f762b3505e089e4493c8eaffc47e763,
+      type: 3}
+    _ratio: 0.02
   - _object: {fileID: 140943433625743837, guid: 0314d373ebbd44243bb145c58777e487,
       type: 3}
     _ratio: 0.05
+  - _object: {fileID: 6404812916834386740, guid: 79ad5731a41a6974e8061ce47ba037aa,
+      type: 3}
+    _ratio: 0.02
+  - _object: {fileID: 271173521182957852, guid: fdf16253bca820a46b213624b286b840,
+      type: 3}
+    _ratio: 0.01
+  - _object: {fileID: 3086519417213424925, guid: 741b222e8348d0b4a92507671e883851,
+      type: 3}
+    _ratio: 0.01
+  - _object: {fileID: 4514715130320230001, guid: 22d10803bdc5ba0458a4e9d37106bdde,
+      type: 3}
+    _ratio: 0.01
   - _object: {fileID: 8446614467343237972, guid: 288134ba65a54034eaa1e012aaf22821,
       type: 3}
     _ratio: 0.1
@@ -3940,6 +3958,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4383721239001615889, guid: e0369c4e2870f854f9f7d1e838b214bb,
+        type: 3}
+      propertyPath: m_Mass
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4383721239001615890, guid: e0369c4e2870f854f9f7d1e838b214bb,
         type: 3}
       propertyPath: _ship
