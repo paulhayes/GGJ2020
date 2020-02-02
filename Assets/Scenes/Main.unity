@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -3220,6 +3220,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1998988868, guid: 06e8022fe194b324ba50c35273621ca4, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035951965729635412, guid: 06e8022fe194b324ba50c35273621ca4,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2035951965729635414, guid: 06e8022fe194b324ba50c35273621ca4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3935,6 +3944,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: RocketShip
       objectReference: {fileID: 0}
+    - target: {fileID: 2035951966543955162, guid: 06e8022fe194b324ba50c35273621ca4,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035951966543955163, guid: 06e8022fe194b324ba50c35273621ca4,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035951966543955164, guid: 06e8022fe194b324ba50c35273621ca4,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e8022fe194b324ba50c35273621ca4, type: 3}
 --- !u!4 &3871831707573452146
@@ -3958,6 +3982,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 767047320, guid: e0369c4e2870f854f9f7d1e838b214bb, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157155784, guid: e0369c4e2870f854f9f7d1e838b214bb, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4383721239001615889, guid: e0369c4e2870f854f9f7d1e838b214bb,
         type: 3}
       propertyPath: m_Mass
@@ -4026,6 +4058,11 @@ PrefabInstance:
     - target: {fileID: 4383721239001615891, guid: e0369c4e2870f854f9f7d1e838b214bb,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4383721239001615895, guid: e0369c4e2870f854f9f7d1e838b214bb,
+        type: 3}
+      propertyPath: m_PlayOnAwake
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4383721239001615901, guid: e0369c4e2870f854f9f7d1e838b214bb,
