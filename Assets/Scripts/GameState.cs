@@ -18,7 +18,7 @@ public class GameState : ScriptableObject
         set {
             var oldState = _state;
             _state = value;
-            Debug.LogFormat("Moving from {0} to {1}",oldState,_state);
+            //Debug.LogFormat("Moving from {0} to {1}",oldState,_state);
             Changed(oldState,_state);
         }
     }
