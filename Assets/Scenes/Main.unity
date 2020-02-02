@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1127,7 +1127,11 @@ MonoBehaviour:
     _rotate: 0
   - _object: {fileID: 8446614467343237972, guid: 288134ba65a54034eaa1e012aaf22821,
       type: 3}
-    _ratio: 0.1
+    _ratio: 0.05
+    _rotate: 0
+  - _object: {fileID: 8446614467343237972, guid: 9b7736fab5bd18c41ac4023eb0e68a78,
+      type: 3}
+    _ratio: 0.05
     _rotate: 0
   _objectPositionJitter: {x: 0.05, y: 0.05}
 --- !u!1 &654553329
