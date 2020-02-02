@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class RobotCharacter : MonoBehaviour
 {
+    public const int AbsoluteMaximumCarriableItems = 5;
     public static RobotCharacter _instance;
 
     [SerializeField] RobotPlayerData _playerData;
@@ -22,10 +23,8 @@ public class RobotCharacter : MonoBehaviour
     [SerializeField] AudioSource _source;
     [SerializeField] LayerMask _itemMask;
 
-    bool _inputEnabled = true;
-
-    Item[] _itemSlots;
-    int _itemsHeld;
+    ItemSlot[] _itemSlots = new ItemSlot[AbsoluteMaximumCarriableItems];
+    int _itemsHeld = 0;
     int _maxItems = 3;
 
     float _speedMultiplier = 1;
@@ -33,8 +32,9 @@ public class RobotCharacter : MonoBehaviour
 
     void Awake()
     {
-        _itemSlots = new Item[3];
-
+        for(int i=0;i<AbsoluteMaximumCarriableItems;i++){
+            _itemSlots[i] = new ItemSlot();
+        }
         if (_instance == null)
             _instance = this;
         else
@@ -49,7 +49,6 @@ public class RobotCharacter : MonoBehaviour
 
     public void Reset()
     {
-        _inputEnabled = true;
         transform.position = _startPosition.position;
     }
 
@@ -61,7 +60,7 @@ public class RobotCharacter : MonoBehaviour
         {
              vel = (_ship.transform.position - transform.position).normalized * _moveSpeed;            
         }
-        else if (_inputEnabled)
+        else if (_gameState.State==States.Scavenge)
         {
             var dx = Input.GetAxisRaw("Horizontal");
             var dy = Input.GetAxisRaw("Vertical");
@@ -74,18 +73,18 @@ public class RobotCharacter : MonoBehaviour
 
     void LateUpdate()
     {
-        foreach (var item in _itemSlots)
+        for(int i=0;i<_itemsHeld;i++)
         {
-            if (item == null)
+            var slot = _itemSlots[i];
+            if (slot == null)
                 break;
 
-            item.transform.position = transform.position + (Vector3)item._dragOffset;
+            slot.item.transform.position = transform.position + (Vector3)slot.dragOffset;
         }
     }
 
     void OnStateChanged(States oldState, States newState)
     {
-        _inputEnabled = newState==States.Scavenge;
         if(newState==States.Launch)
         {
             gameObject.SetActive(false);
@@ -94,21 +93,21 @@ public class RobotCharacter : MonoBehaviour
         {
             gameObject.SetActive(true);
             gameObject.transform.position = _startPosition.position;
+            ResetPowerUps();
         }
     }
 
 
     public void Pickup(Item item)
     {
-        if (_itemsHeld >= _itemSlots.Length)
+        if (_itemsHeld >= _maxItems)
             return;
 
-        item._pickedUp = true;
-        item._dragOffset = item.transform.position-transform.position;
+        item.OnPickedUp();
 
-        item._collider.enabled = false;
+        _itemSlots[_itemsHeld].item = item;
+        _itemSlots[_itemsHeld].dragOffset = item.transform.position-transform.position;
 
-        _itemSlots[_itemsHeld] = item;
         _itemsHeld++;
 
         _source.Play();
@@ -118,10 +117,10 @@ public class RobotCharacter : MonoBehaviour
     {
         Vector3 scoreDelta = Vector3.zero;
 
-        for (int i = 0; i < _itemSlots.Length; i++)
+        for (int i = 0; i <_itemsHeld; i++)
         {
-            Item item = _itemSlots[i];
-            _itemSlots[i] = null;
+            Item item = _itemSlots[i].item;
+            _itemSlots[i].item = null;
 
             if (item == null)
                 continue;
@@ -158,20 +157,18 @@ public class RobotCharacter : MonoBehaviour
                 break;
             case PowerUpType.SlotIncrease:
                 _maxItems++;
-
-                Item[] newSlots = new Item[_maxItems];
-                for (int i = 0; i < _itemsHeld; i++)
-                {
-                    newSlots[i] = _itemSlots[i];
-                }
-
-                _itemSlots = newSlots;
-
+                
                 break;
             case PowerUpType.BatteryIncrease:
                 _playerData.timeRemaining = Mathf.Clamp((_playerData.timeRemaining + _playerData.levelDuration / 3f), 0, _playerData.levelDuration);
                 break;
         }
+    }
+
+    void ResetPowerUps()
+    {
+        _speedMultiplier = 1;
+        _maxItems = 3;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -181,9 +178,7 @@ public class RobotCharacter : MonoBehaviour
 
             Item item = collision.gameObject.GetComponent<Item>();
 
-            if (item._pickedUp)
-                return;
-
+            
             Pickup(item);
         }
 
@@ -201,4 +196,11 @@ public class RobotCharacter : MonoBehaviour
             }
         }
     }
+}
+
+[System.Serializable]
+public class ItemSlot 
+{
+    public Vector2 dragOffset;
+    public Item item;
 }

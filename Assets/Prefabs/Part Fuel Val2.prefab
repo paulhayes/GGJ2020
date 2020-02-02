@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 6404812916834386761}
   - component: {fileID: 6404812916834386762}
   - component: {fileID: 6404812916834386763}
+  - component: {fileID: -8201351598458468809}
   m_Layer: 0
-  m_Name: Part T2 V2
+  m_Name: Part Fuel Val2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,3 +152,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   values: {x: 0, y: 2, z: 0}
+--- !u!114 &-8201351598458468809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6404812916834386740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83b5fce3d6549154d867525406a190ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pickedUp: 0
+  _dragOffset: {x: 0, y: 0}
+  _collider: {fileID: 140943433625743835, guid: 0314d373ebbd44243bb145c58777e487,
+    type: 3}
+  _canCollect:
+    serializedVersion: 2
+    m_Bits: 256
+  _part: {fileID: 140943433625743814, guid: 0314d373ebbd44243bb145c58777e487, type: 3}
