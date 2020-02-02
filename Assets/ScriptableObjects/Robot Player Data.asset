@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Robot Player Data
   m_EditorClassIdentifier: 
   score: {x: 0, y: 0, z: 0}
-  levelDuration: 20
+  levelDuration: 2
