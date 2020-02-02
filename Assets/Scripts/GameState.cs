@@ -18,13 +18,14 @@ public class GameState : ScriptableObject
         set {
             var oldState = _state;
             _state = value;
+            Debug.LogFormat("Moving from {0} to {1}",oldState,_state);
             Changed(oldState,_state);
         }
     }
 
     public void Reset()
     {
-        State = States.Scavenge;
+        State = States.Begining;
     }
 
     public void Stopped()

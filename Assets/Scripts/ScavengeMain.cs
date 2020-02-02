@@ -24,13 +24,22 @@ public class ScavengeMain : MonoBehaviour
 
     void OnGameStateChanged(States oldState, States newState)
     {
-        if(newState==States.Scavenge){
+        if(newState==States.Begining){
             playerData.Reset();
         }
+        
+
     }
 
     void Update(){
-        if (_gameState.State == States.Scavenge)
+        if(_gameState.State == States.Begining)
+        {
+            if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+            {
+                _gameState.State = States.Scavenge;
+            }
+        }
+        else if (_gameState.State == States.Scavenge)
         {
             playerData.timeRemaining -= Time.deltaTime;
             if (playerData.timeRemaining < 0)

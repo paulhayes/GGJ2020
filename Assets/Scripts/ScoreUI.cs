@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,19 @@ public class ScoreUI : MonoBehaviour
 
     [SerializeField]
     RobotPlayerData playerData;
+
+    [SerializeField]
+    GameState _gameState;
+
+    void Awake()
+    {
+        _gameState.StateChangedEvent += OnGameStateChanged;
+    }
+
+    void OnGameStateChanged(States oldState, States newState)
+    {
+        timerSlider.gameObject.SetActive( _gameState.State == States.Scavenge );
+    }
 
     void Start()
     {

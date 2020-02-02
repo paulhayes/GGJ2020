@@ -6,6 +6,7 @@ public enum States
 {
     Falling,
     Crash,
+    Begining,
     Scavenge,
     Countdown,
     Launch

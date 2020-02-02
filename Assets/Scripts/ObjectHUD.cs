@@ -17,8 +17,6 @@ public class ObjectHUD : MonoBehaviour
     void Update()
     {
         canvas.transform.position = target.transform.position + _hudRelativePos;
-        if( canvas.enabled !=  target.gameObject.activeSelf){
-            canvas.enabled = target.gameObject.activeSelf;
-        }
+        
     }
 }

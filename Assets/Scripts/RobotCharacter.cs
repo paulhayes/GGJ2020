@@ -56,17 +56,23 @@ public class RobotCharacter : MonoBehaviour
     {
         Vector3 vel = Vector3.zero;
 
-        if (_gameState.State==States.Countdown)
+        if(_gameState.State==States.Begining)
         {
-             vel = (_ship.transform.position - transform.position).normalized * _moveSpeed;            
+            _body.rotation = 180;
         }
-        else if (_gameState.State==States.Scavenge)
+        if (_gameState.State==States.Scavenge)
         {
+            _body.rotation = 0;
             var dx = Input.GetAxisRaw("Horizontal");
             var dy = Input.GetAxisRaw("Vertical");
 
             vel = new Vector3(dx, dy, 0).normalized * _moveSpeed * _speedMultiplier;
         }
+        else if (_gameState.State==States.Countdown)
+        {
+             vel = (_ship.transform.position - transform.position).normalized * _moveSpeed;            
+        }
+
 
         _body.velocity = 2*vel / (GetSumItemMass() +_body.mass);
     }
@@ -89,7 +95,7 @@ public class RobotCharacter : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
-        else if(newState==States.Scavenge) 
+        else if(newState==States.Begining) 
         {
             gameObject.SetActive(true);
             gameObject.transform.position = _startPosition.position;

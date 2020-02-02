@@ -93,7 +93,7 @@ public class Rocket : MonoBehaviour
         crashSFX.Play();
         yield return explosion.Explode();
         yield return new WaitForSeconds(0.1f);
-        _state.State = States.Scavenge;
+        _state.State = States.Begining;
     }
 
     void FixedUpdate(){

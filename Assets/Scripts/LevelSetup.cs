@@ -32,7 +32,7 @@ public class LevelSetup : MonoBehaviour
 
     private void OnStateChange(States oldState, States newState)
     {
-        if(newState == States.Scavenge)
+        if(newState == States.Begining)
         {
             if (_objectRatios.Sum(ratio => ratio.Ratio) > 1)
             {

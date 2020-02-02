@@ -14,14 +14,14 @@ public class CameraFade : MonoBehaviour
     [SerializeField] float holdDuration;
     [SerializeField] float fadeInDuration;
 
-    void Start()
+    void Awake()
     {
         _gameState.StateChangedEvent += OnGameStateChanged;
     }
 
     private void OnGameStateChanged(States oldState, States newState)
     {
-        if(newState==States.Scavenge){
+        if(newState==States.Begining){
             CutToBlack();
             StartCoroutine( FadeIn() );
         }
