@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ public class RobotCharacter : MonoBehaviour
     public static RobotCharacter _instance;
 
     [SerializeField] RobotPlayerData _playerData;
+
+    [SerializeField] GameState _gameState;
 
     [SerializeField] float _moveSpeed;
 
@@ -20,7 +23,6 @@ public class RobotCharacter : MonoBehaviour
     [SerializeField] AudioClip _partPickupSfx;
 
     bool _inputEnabled = true;
-    bool _returnToShip = false;
 
     Item[] _itemSlots;
     int _itemsHeld;
@@ -28,15 +30,6 @@ public class RobotCharacter : MonoBehaviour
 
     float _speedMultiplier = 1;
 
-    public void ReturnToShip () {
-        _returnToShip = true;
-        _inputEnabled = false;
-    }
-
-    public bool IsReturningToShip ()
-    {
-        return _returnToShip;
-    }
 
     void Awake()
     {
@@ -51,11 +44,11 @@ public class RobotCharacter : MonoBehaviour
     void Start()
     {
         Reset();
+        _gameState.StateChangedEvent += OnStateChanged;
     }
 
     public void Reset()
     {
-        _returnToShip = false;
         _inputEnabled = true;
         transform.position = _startPosition.position;
     }
@@ -64,12 +57,17 @@ public class RobotCharacter : MonoBehaviour
     {
         Vector3 vel = Vector3.zero;
 
-        if (_returnToShip)
+        if (_gameState.State==States.Countdown)
         {
-            if (Vector2.Distance(transform.position, _ship.transform.position) > 0.1f)
+            if (Vector2.Distance(transform.position, _ship.transform.position) > 0.09f)
+            {
                 vel = (_ship.transform.position - transform.position).normalized * _moveSpeed;
-            else
-                _returnToShip = false;
+               
+            }
+            else {
+                 _gameState.State = States.Launch;
+            }
+            
         }
         else if (_inputEnabled)
         {
@@ -92,6 +90,15 @@ public class RobotCharacter : MonoBehaviour
             item.transform.position = transform.position + (Vector3)item._dragOffset;
         }
     }
+
+    void OnStateChanged(States oldState, States newState)
+    {
+        if(oldState==States.Countdown)
+        {
+            _inputEnabled = false;
+        }
+    }
+
 
     public void Pickup(Item item)
     {

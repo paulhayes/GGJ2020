@@ -16,6 +16,9 @@ public class Rocket : MonoBehaviour
     [SerializeField]
     float thrustScale;
 
+    [SerializeField]
+    float thrustDuration;
+
     Dictionary<States, System.Func<IEnumerator>> stateChangeActions = new Dictionary<States, System.Func<IEnumerator>>();
 
     void Start()
@@ -29,21 +32,27 @@ public class Rocket : MonoBehaviour
 
     void OnChanged(States oldState, States newState)
     {
+        //Debug.LogFormat("{0} {1}",oldState,newState);
         if (stateChangeActions.ContainsKey(newState))
         {
-            stateChangeActions[newState]();
+            StartCoroutine(stateChangeActions[newState]());
         }
     }
 
     IEnumerator StartLaunch()
     {
-        yield return new WaitForSeconds(3);    
+        Debug.Log("Thrust");
+        yield return new WaitForSeconds(0.5f);    
         var score = robotPlayerData.score;    
         var thrust = Mathf.Pow( score.x * score.y * score.z, 1/3f );
-        var duration = 5f;
-        while( duration<=0 ){
-            rocketBody.AddForce(new Vector3(0,thrust*thrustScale,0));
+        var duration = thrustDuration;
+        if( thrust == 0){
+            Debug.Log("No resultant thrust, explode on launchpad!!");
+            thrust = 20;
+        }
+        while( duration>0 ){
             yield return new WaitForFixedUpdate();
+            rocketBody.AddForce(new Vector3(0,thrust*thrustScale,0),ForceMode2D.Force);
             duration -= Time.fixedDeltaTime;
         }
     }

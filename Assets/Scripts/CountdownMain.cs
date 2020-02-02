@@ -18,21 +18,7 @@ public class CountdownMain : MonoBehaviour
 
     void StateChanged(States oldState, States newState)
     {
-        if (oldState == States.Scavenge && newState == States.Countdown)
-            robot.ReturnToShip();
+        
     }
 
-    void Update()
-    {
-        if (_gameState.State == States.Countdown)
-        {
-            if (!robot.IsReturningToShip())
-                Finish();
-        }
-    }
-
-    void Finish()
-    {
-        _gameState.State = States.Launch;
-    }
 }

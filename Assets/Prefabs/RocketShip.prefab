@@ -11,8 +11,10 @@ GameObject:
   - component: {fileID: 2035951965729635414}
   - component: {fileID: 2035951965729635497}
   - component: {fileID: 2035951965729635496}
+  - component: {fileID: 563261086}
   - component: {fileID: 2035951965729635412}
   - component: {fileID: 2035951965729635415}
+  - component: {fileID: 563261085}
   m_Layer: 0
   m_Name: RocketShip
   m_TagString: Untagged
@@ -71,7 +73,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -75004765
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 6ca5e6a4e8ed6a54791015a9321f6782, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -102,6 +104,22 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: 44fa708b4df70d34b84b59f422ac7b68, type: 2}
   _source: {fileID: 2035951965729635412}
   _partBankedSfx: {fileID: 8300000, guid: f748ee6b83275e9408a771a431117381, type: 3}
+--- !u!114 &563261086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035951965729635499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d93bdf6e56be2424d9b861e8d785083a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _state: {fileID: 11400000, guid: bff33d099c8739d47b3447d8e47f359e, type: 2}
+  rocketBody: {fileID: 563261085}
+  robotPlayerData: {fileID: 11400000, guid: 44fa708b4df70d34b84b59f422ac7b68, type: 2}
+  thrustScale: 20
 --- !u!82 &2035951965729635412
 AudioSource:
   m_ObjectHideFlags: 0
@@ -223,44 +241,34 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.15365742, y: 0.032780647}
-      - {x: -0.12501875, y: 0.04663807}
-      - {x: -0.12317109, y: 0.048485726}
-      - {x: -0.06866523, y: 0.059571665}
-      - {x: -0.066817574, y: 0.057724006}
-      - {x: -0.052960154, y: 0.05680018}
-      - {x: 0.039422665, y: 0.05680018}
-      - {x: 0.047737118, y: 0.055876352}
-      - {x: 0.06067071, y: 0.055876352}
+    - - {x: -0.06866523, y: 0.059571665}
+      - {x: -0.06875015, y: 0.012141665}
+      - {x: 0.06265553, y: 0.009233038}
       - {x: 0.062518366, y: 0.057724006}
       - {x: 0.06621368, y: 0.064190805}
       - {x: 0.07729962, y: 0.05680018}
-      - {x: 0.13365313, y: 0.021694709}
-      - {x: 0.13827227, y: 0.010608772}
-      - {x: 0.13550079, y: 0.007837287}
-      - {x: 0.13457696, y: 0.0050658025}
-      - {x: 0.13457696, y: 0.002294318}
-      - {x: 0.13734844, y: -0.0014009946}
-      - {x: 0.16691095, y: -0.0014009946}
-      - {x: 0.16783477, y: -0.0004771665}
-      - {x: 0.16783477, y: 0.012456428}
-      - {x: 0.16044416, y: 0.016151741}
-      - {x: 0.15674885, y: 0.016151741}
-      - {x: 0.14381525, y: 0.022618538}
       - {x: 0.06990899, y: 0.20091738}
       - {x: 0.06436603, y: 0.21385096}
       - {x: -0.0677414, y: 0.2147748}
       - {x: -0.07143672, y: 0.21107948}
-      - {x: -0.12501875, y: 0.10761073}
-      - {x: -0.1527336, y: 0.054028694}
-      - {x: -0.16659102, y: 0.025390022}
-      - {x: -0.17121015, y: 0.023542365}
-      - {x: -0.17398164, y: 0.018923225}
-      - {x: -0.1859914, y: 0.016151741}
-      - {x: -0.19245821, y: 0.008761115}
-      - {x: -0.19245821, y: 0.00044666167}
-      - {x: -0.19061054, y: -0.0014009946}
-      - {x: -0.16104805, y: -0.0014009946}
-      - {x: -0.15920039, y: -0.0004771665}
-      - {x: -0.15827656, y: 0.009684944}
-      - {x: -0.16104805, y: 0.018923225}
+--- !u!50 &563261085
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035951965729635499}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
