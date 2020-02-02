@@ -93,6 +93,7 @@ public class RobotCharacter : MonoBehaviour
         else if(newState==States.Scavenge) 
         {
             gameObject.SetActive(true);
+            gameObject.transform.position = _startPosition.position;
         }
     }
 
