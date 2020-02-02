@@ -38,7 +38,7 @@ public class ScavengeMain : MonoBehaviour
         {
             _beginningTimer += Time.deltaTime;
 
-            if (_beginningTimer > 3 && Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+            if (_beginningTimer > 3 && Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("Fire1"))
             {
                 _gameState.State = States.Scavenge;
             }
