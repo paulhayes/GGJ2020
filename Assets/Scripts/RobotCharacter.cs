@@ -20,8 +20,6 @@ public class RobotCharacter : MonoBehaviour
     [SerializeField] Transform _startPosition;
 
     [SerializeField] AudioSource _source;
-    [SerializeField] AudioClip _partPickupSfx;
-
     [SerializeField] LayerMask _itemMask;
 
     bool _inputEnabled = true;
@@ -112,7 +110,7 @@ public class RobotCharacter : MonoBehaviour
         _itemSlots[_itemsHeld] = item;
         _itemsHeld++;
 
-        _source.PlayOneShot(_partPickupSfx);
+        _source.Play();
     }
 
     public void BankItems(Ship ship)
@@ -140,7 +138,7 @@ public class RobotCharacter : MonoBehaviour
                 ApplyPowerUp(powUpItem);
                             
             }
-            
+
             // get destroyed by the spawner at the begining of next level
             item.gameObject.SetActive(false);    
         }
