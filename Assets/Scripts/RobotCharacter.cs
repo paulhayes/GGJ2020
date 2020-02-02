@@ -26,7 +26,11 @@ public class RobotCharacter : MonoBehaviour
     [SerializeField] float _itemTrailStart;
     [SerializeField] float _itemTrailPadding;
 
+    [SerializeField] GameObject _emptySlotPfb;
+
     ItemSlot[] _itemSlots = new ItemSlot[AbsoluteMaximumCarriableItems];
+    GameObject[] _emptySlotGfx = new GameObject[AbsoluteMaximumCarriableItems];
+
     int _itemsHeld = 0;
     int _maxItems = 3;
 
@@ -38,6 +42,8 @@ public class RobotCharacter : MonoBehaviour
     {
         for(int i=0;i<AbsoluteMaximumCarriableItems;i++){
             _itemSlots[i] = new ItemSlot();
+            _emptySlotGfx[i] = Instantiate(_emptySlotPfb);
+            _emptySlotGfx[i].SetActive(false);
         }
         if (_instance == null)
             _instance = this;
@@ -199,32 +205,43 @@ public class RobotCharacter : MonoBehaviour
     {
         Vector3 currentPos = transform.position + (_trailDir * _itemTrailStart);
 
-        for (int i = 0; i < _itemsHeld; i++)
+        for (int i = 0; i < _maxItems; i++)
         {
-            Item thisItem = _itemSlots[i].item;
+            Transform slotTransform;
 
-            var multiplier = thisItem.transform.localScale.y * 0.15f;
+            if (_itemSlots[i].item == null)
+            {
+                _emptySlotGfx[i].SetActive(_gameState.State == States.Scavenge);
+                slotTransform = _emptySlotGfx[i].transform;
+            }
+            else
+            {
+                _emptySlotGfx[i].SetActive(false);
+                slotTransform = _itemSlots[i].item.transform;
+            }
+
+            var multiplier = slotTransform.localScale.y * 0.15f;
 
             currentPos += (_trailDir * multiplier * 0.5f) /*+ (_trailDir * _itemTrailPadding)*/;
-            thisItem.transform.position = Vector3.Lerp(thisItem.transform.position, currentPos, 0.025f);
-            currentPos += (_trailDir * multiplier * 0.5f) /*+ (_trailDir * _itemTrailPadding)*/;
+            slotTransform.position = _emptySlotGfx[i].transform.position = Vector3.Lerp(slotTransform.position, currentPos, 0.025f);
 
-            Debug.Log($"{i}: {multiplier})");
+            currentPos += (_trailDir * multiplier * 0.5f) /*+ (_trailDir * _itemTrailPadding)*/;
         }
+    }
+
+    void SetSlotPos ()
+    {
+
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (_itemMask == (_itemMask | 1 << collision.gameObject.layer))
         {
-
             Item item = collision.gameObject.GetComponent<Item>();
-
             
             Pickup(item);
         }
-
-         
     }
 
     void OnCollisionStay2D(Collision2D collision)

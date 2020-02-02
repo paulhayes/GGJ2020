@@ -728,7 +728,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   _itemTrailStart: 0
-  _itemTrailPadding: 0
+  _itemTrailPadding: 0.05
+  _emptySlotPfb: {fileID: 6602840680077031325, guid: 04292f6092b2326499b3921134407972,
+    type: 3}
 --- !u!50 &4383721239001615889
 Rigidbody2D:
   serializedVersion: 4
