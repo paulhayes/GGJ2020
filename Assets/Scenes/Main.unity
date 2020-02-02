@@ -236,7 +236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameState: {fileID: 11400000, guid: bff33d099c8739d47b3447d8e47f359e, type: 2}
   target: {fileID: 1429183513}
-  playerData: {fileID: 0}
+  playerData: {fileID: 11400000, guid: 44fa708b4df70d34b84b59f422ac7b68, type: 2}
   canvas: {fileID: 93905214}
   battery: {fileID: 295964979}
 --- !u!114 &93905217
@@ -2194,7 +2194,6 @@ MonoBehaviour:
   - {fileID: 830503878}
   - {fileID: 814242948}
   - {fileID: 1387717508}
-  timerSlider: {fileID: 295964979}
   altitudeReachedField: {fileID: 299088467}
   playerData: {fileID: 11400000, guid: 44fa708b4df70d34b84b59f422ac7b68, type: 2}
   _gameState: {fileID: 11400000, guid: bff33d099c8739d47b3447d8e47f359e, type: 2}

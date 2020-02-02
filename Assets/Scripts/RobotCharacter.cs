@@ -270,8 +270,6 @@ public class RobotCharacter : MonoBehaviour
                 var size = _itemSlots[i].item.GetSize();
 
                 multiplier = size.y;
-
-                Debug.Log(size);
             }
 
 

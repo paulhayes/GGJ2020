@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,10 +34,19 @@ public class RobotHud : MonoBehaviour
     private IEnumerator FillBattery()
     {
         battery.value = 0;
-        const int increments = 20;
+        var originalScale = battery.transform.localScale;
+        battery.transform.localScale = Vector3.zero;
+        yield return new WaitForSeconds(0.15f);
+        battery.transform.localScale = originalScale;
+        yield return new WaitForSeconds(0.15f);
+        battery.transform.localScale = Vector3.zero;
+        yield return new WaitForSeconds(0.15f);
+        battery.transform.localScale = originalScale;
+        const int increments = 100;
+        var incrementAmount = playerData.timeRemaining / increments;
         for (var i = 0; i < increments; i++)
         {
-            battery.value += 1f / increments;
+            battery.value += incrementAmount;
             yield return null;
         }
     }
@@ -46,14 +54,24 @@ public class RobotHud : MonoBehaviour
     void Start()
     {
         _hudRelativePos = canvas.transform.position - target.transform.position;
+        battery.maxValue = playerData.levelDuration;   
     }
 
     void Update()
     {
-        canvas.transform.position = target.transform.position + _hudRelativePos;
-        if( canvas.enabled != target.gameObject.activeSelf)
+        if (target.IsReady())
         {
-            canvas.enabled = target.gameObject.activeSelf;
+            battery.value = playerData.timeRemaining;
+        }
+
+        canvas.transform.position = target.transform.position + _hudRelativePos;
+        if(canvas.enabled && _gameState.State != States.Scavenge)
+        {
+            canvas.enabled = false;
+        }
+        if (!canvas.enabled && _gameState.State == States.Scavenge && !target.IsReady())
+        {
+            canvas.enabled = true;
         }
     }
 }
