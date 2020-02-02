@@ -23,12 +23,16 @@ public class RobotCharacter : MonoBehaviour
     [SerializeField] AudioSource _source;
     [SerializeField] LayerMask _itemMask;
 
+    [SerializeField] float _itemTrailStart;
+    [SerializeField] float _itemTrailPadding;
+
     ItemSlot[] _itemSlots = new ItemSlot[AbsoluteMaximumCarriableItems];
     int _itemsHeld = 0;
     int _maxItems = 3;
 
     float _speedMultiplier = 1;
 
+    Vector3 _trailDir;
 
     void Awake()
     {
@@ -74,19 +78,24 @@ public class RobotCharacter : MonoBehaviour
         }
 
 
+        if (vel != Vector3.zero)
+            _trailDir = -vel.normalized;
+
         _body.velocity = 2*vel / (GetSumItemMass() +_body.mass);
     }
 
     void LateUpdate()
     {
-        for(int i=0;i<_itemsHeld;i++)
-        {
-            var slot = _itemSlots[i];
-            if (slot == null)
-                break;
+        //for(int i=0;i<_itemsHeld;i++)
+        //{
+        //    var slot = _itemSlots[i];
+        //    if (slot == null)
+        //        break;
 
-            slot.item.transform.position = transform.position + (Vector3)slot.dragOffset;
-        }
+        //    slot.item.transform.position = transform.position + (Vector3)slot.dragOffset;
+        //}
+
+        UpdateItemTrail();
     }
 
     void OnStateChanged(States oldState, States newState)
@@ -184,6 +193,21 @@ public class RobotCharacter : MonoBehaviour
     {
         _speedMultiplier = 1;
         _maxItems = 3;
+    }
+
+    void UpdateItemTrail()
+    {
+        Vector3 currentPos = transform.position + (_trailDir * _itemTrailStart);
+
+        for (int i = 0; i < _itemsHeld; i++)
+        {
+            Item item = _itemSlots[i].item;
+
+            if (i>0)
+                currentPos += _trailDir * item.transform.localScale.y * (0.3f + _itemTrailPadding);
+
+            item.transform.position = Vector3.Lerp(item.transform.position, currentPos, 0.04f);
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)

@@ -727,6 +727,8 @@ MonoBehaviour:
   _itemMask:
     serializedVersion: 2
     m_Bits: 512
+  _itemTrailStart: 0.2
+  _itemTrailPadding: -0.1
 --- !u!50 &4383721239001615889
 Rigidbody2D:
   serializedVersion: 4
