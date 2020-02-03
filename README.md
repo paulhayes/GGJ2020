@@ -19,6 +19,6 @@ Hello little robot! It appears your ship has crashed, and...
 
 **[Paul Hayes](https://github.com/paulhayes):** Code and Game Development\
 **[Evan Griffiths](https://github.com/Blooker):** Code and UI\
+**[Jamey](https://github.com/Jammyo):** Code
 **[Amy Godliman](https://github.com/ACGodliman):** Writing, art direction, and additional art assets\
-**[Clara](https://github.com/quixoticduck)
-**[Jamey](https://github.com/Jammyo)
+**[Clara](https://github.com/quixoticduck):** Artist
