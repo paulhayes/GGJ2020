@@ -21,4 +21,4 @@ Hello little robot! It appears your ship has crashed, and...
 **[Evan Griffiths](https://github.com/Blooker):** Code\
 **[Jamey](https://github.com/Jammyo):** Code\
 **[Amy Godliman](https://github.com/ACGodliman):** Writing, art direction, and additional art assets\
-**[Clara](https://github.com/quixoticduck):** Artist\
+**[Clara](https://github.com/quixoticduck):** Artist
