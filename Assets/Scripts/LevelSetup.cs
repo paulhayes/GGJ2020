@@ -18,6 +18,8 @@ public class LevelSetup : MonoBehaviour
     [SerializeField] private ObjectRatio[] _objectRatios;
     [SerializeField] private Vector2 _objectPositionJitter;
 
+    [SerializeField] LevelSettings levelSettings;
+
     List<GameObject> _spawnedObjects = new List<GameObject>(1024);
 
     private void OnEnable()
@@ -116,7 +118,7 @@ public class LevelSetup : MonoBehaviour
             var xJitter = Random.Range(-jitter.x, jitter.x);
             var yJitter = Random.Range(-jitter.y, jitter.y);
             var x = cellCoordinates.x + xJitter + cellSize.x / 2;
-            var y = cellCoordinates.y + yJitter - cellSize.y / 2;
+            var y = cellCoordinates.y + yJitter + cellSize.y / 2;
             _spawnedObjects.Add( Instantiate(objectRatio.Object, new Vector3(x, y, 0), objectRatio.Rotate ? Quaternion.Euler(0, 0, Random.value * 360) : Quaternion.identity));
         }
     }
@@ -128,7 +130,7 @@ public class LevelSetup : MonoBehaviour
         {
             for (var y = 0; y < grid.y; y++)
             {
-                var cell = new Rect(_levelBoundary.x + x * cellSize.x, _levelBoundary.y - y * cellSize.y, cellSize.x, cellSize.y);
+                var cell = new Rect(_levelBoundary.min.x + x * cellSize.x, _levelBoundary.min.y + y * cellSize.y, cellSize.x, cellSize.y);
                 var isInDeadZone = false;
                 foreach (var deadZone in _deadZones)
                 {
@@ -147,5 +149,15 @@ public class LevelSetup : MonoBehaviour
         }
         Shuffle(validCells);
         return new Queue<Rect>(validCells);
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        // Display the explosion radius when selected
+        Gizmos.color = new Color(1, 1, 0, 0.75F);
+        Gizmos.DrawWireCube(_levelBoundary.center,_levelBoundary.size);
+        foreach(var obj in _spawnedObjects){
+          Gizmos.DrawCube(obj.transform.position, 0.1f * Vector3.one);
+        }
     }
 }

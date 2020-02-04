@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1070,9 +1070,9 @@ MonoBehaviour:
   _levelBoundary:
     serializedVersion: 2
     x: -4.15
-    y: 1.5
+    y: -2.62
     width: 8.3
-    height: 4.2
+    height: 4.14
   _deadZones:
   - {fileID: 174975632}
   - {fileID: 506952955}
@@ -1134,6 +1134,7 @@ MonoBehaviour:
     _ratio: 0.05
     _rotate: 0
   _objectPositionJitter: {x: 0.05, y: 0.05}
+  levelSettings: {fileID: 11400000, guid: bd92cc755684b4da8956a271488e2a41, type: 2}
 --- !u!1 &654553329
 GameObject:
   m_ObjectHideFlags: 0
@@ -3020,8 +3021,8 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 2.62
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3833,6 +3834,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 767047320, guid: e0369c4e2870f854f9f7d1e838b214bb, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: a92fd2f334174dc419df961c1a0c9ea0, type: 3}
     - target: {fileID: 4383721239001615890, guid: e0369c4e2870f854f9f7d1e838b214bb,
         type: 3}
       propertyPath: _ship
