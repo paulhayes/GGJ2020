@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class RobotCharacter : MonoBehaviour
 {
-    public const int AbsoluteMaximumCarriableItems = 5;
+    public const int AbsoluteMaximumCarriableItems = 6;
     public static RobotCharacter _instance;
 
     [SerializeField] RobotPlayerData _playerData;

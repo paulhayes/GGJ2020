@@ -20,11 +20,20 @@ public class LevelSetup : MonoBehaviour
 
     [SerializeField] LevelSettings levelSettings;
 
-    List<GameObject> _spawnedObjects = new List<GameObject>(1024);
+    GameObject[] _spawnedItems;
+    GameObject[] _spawnedCraters;
 
+
+    void Awake()
+    {
+      _spawnedItems = new GameObject[_objectGrid.x * _objectGrid.y];
+      _spawnedCraters = new GameObject[_craterGrid.x * _craterGrid.y];
+
+    }
     private void OnEnable()
     {
         _gameState.StateChangedEvent += OnStateChange;
+
     }
 
     private void OnDisable()
@@ -47,23 +56,31 @@ public class LevelSetup : MonoBehaviour
 
         if (newState == States.Countdown)
         {
-            foreach (var spawnedObject in _spawnedObjects)
+            foreach (var spawnedObject in _spawnedItems)
             {
-                var component = spawnedObject.GetComponent<Collider2D>();
-                if (component != null)
-                {
-                    component.isTrigger = true;
-                }
+              if( spawnedObject==null )
+                continue;
+
+              var component = spawnedObject.GetComponent<Collider2D>();
+              if (component != null)
+              {
+                  component.isTrigger = true;
+              }
             }
         }
     }
 
     private void RemoveSpawned()
     {
-        foreach(var spawned in _spawnedObjects){
-            Destroy(spawned);
+        
+        for(int i=0;i<_spawnedItems.Length;i++){
+          Destroy(_spawnedItems[i]);
+          _spawnedItems[i] = null;
         }
-        _spawnedObjects.Clear();
+        for(int i=0;i<_spawnedCraters.Length;i++){
+          Destroy(_spawnedCraters[i]);
+          _spawnedCraters[i] = null;
+        }        
     }
 
     private void SetupMoonFeatures()
@@ -72,27 +89,53 @@ public class LevelSetup : MonoBehaviour
         var cellSize = new Vector2(_levelBoundary.width / _craterGrid.x, _levelBoundary.height / _craterGrid.y);
         
         //Randomly distribute craters around the level, removing any dead zones.
-        var gridPositions = GetShuffledCellQueue(_craterGrid, cellSize);
-        var availableSpaces = gridPositions.Count;
-        
+        //var gridPositions = GetShuffledCellQueue(_craterGrid, cellSize);
+        var availableSpaces = _craterGrid.x * _craterGrid.y;
+        var numCells = NumCellsAvailbile(_craterGrid, cellSize);
+        int spawned = 0;
         //Create craters in final positions.
-        CreatePrefabs(gridPositions, availableSpaces, _craterPositionJitter, _crater, cellSize);
+        CreatePrefabs(_crater, availableSpaces, _spawnedCraters, ref spawned);
+        Shuffle(_spawnedCraters,0,availableSpaces);
+        PlaceObjectsInGrid(_craterGrid, cellSize, _spawnedCraters);
+        AddJitter(_spawnedCraters, _craterPositionJitter);
     }
     
     private void SetupLevel()
     {
+        Debug.Log("Spawning Items");
+
         //Calculate our sizes.
         var cellSize = new Vector2(_levelBoundary.width / _objectGrid.x, _levelBoundary.height / _objectGrid.y);
         
         //Randomly distribute objects around the level.
-        var gridPositions = GetShuffledCellQueue(_objectGrid, cellSize);
-        var availableSpaces = gridPositions.Count;
-
+        //var gridPositions = GetShuffledCellQueue(_objectGrid, cellSize);
+        var availableSpaces = NumCellsAvailbile(_objectGrid,cellSize);
+        var numCells = _objectGrid.x * _objectGrid.y;
         //Create objects in final positions.
+        //Debug.LogFormat("Item cells availbie {0}/{1}",availableSpaces,numCells);
+        float total = 0;
         foreach (var objectRatio in _objectRatios)
         {
-            CreatePrefabs(gridPositions, availableSpaces, _objectPositionJitter, objectRatio, cellSize);
+          total += objectRatio.Ratio;
         }
+        //Debug.LogFormat("Ratio total {0}", total);
+        int spawned = 0;
+        foreach (var objectRatio in _objectRatios)
+        {
+          CreatePrefabs(objectRatio, availableSpaces,_spawnedItems, ref spawned);
+          //Debug.LogFormat("spawning {0} {1}",objectRatio.Object.name,spawned);
+        }
+        //Debug.LogFormat("spawned items total {0}",spawned);
+        Shuffle(_spawnedItems,0,availableSpaces);
+        var ip = PlaceObjectsInGrid(_objectGrid,cellSize,_spawnedItems);
+        //Debug.LogFormat("items positioned {0}",ip);
+        AddJitter(_spawnedItems,_objectPositionJitter);
+
+    }
+
+    private void PositionItem(){
+      
+      
     }
     
     //https://forum.unity.com/threads/clever-way-to-shuffle-a-list-t-in-one-line-of-c-code.241052/
@@ -109,20 +152,95 @@ public class LevelSetup : MonoBehaviour
         }
     }
 
-    private void CreatePrefabs(Queue<Rect> grid, int availableSpaces, Vector2 jitter, ObjectRatio objectRatio, Vector2 cellSize)
+    private static void Shuffle<T>(T[] arr, int start=0, int end=-1)
     {
-        var safeNumberToCreate = Mathf.Min(availableSpaces * objectRatio.Ratio, grid.Count);
-        for (var i = 0; i < safeNumberToCreate; i++)
+        var count = arr.Length;
+        if(end == -1){
+          end = count;
+        }
+        for (var i = start; i < end; ++i)
         {
-            var cellCoordinates = grid.Dequeue();
-            var xJitter = Random.Range(-jitter.x, jitter.x);
-            var yJitter = Random.Range(-jitter.y, jitter.y);
-            var x = cellCoordinates.x + xJitter + cellSize.x / 2;
-            var y = cellCoordinates.y + yJitter + cellSize.y / 2;
-            _spawnedObjects.Add( Instantiate(objectRatio.Object, new Vector3(x, y, 0), objectRatio.Rotate ? Quaternion.Euler(0, 0, Random.value * 360) : Quaternion.identity));
+            var r = Random.Range(i, end);
+            var tmp = arr[i];
+            arr[i] = arr[r];
+            arr[r] = tmp;
         }
     }
 
+    private void CreatePrefabs(ObjectRatio objectRatio, int totalObjects, GameObject[] spawnedList, ref int startIndex)
+    {
+        int safeNumberToCreate = Mathf.FloorToInt( totalObjects * objectRatio.Ratio );
+        for (var i = 0; i < safeNumberToCreate; i++)
+        {                      
+          var obj = spawnedList[i+startIndex] = Instantiate(objectRatio.Object, Vector3.zero, objectRatio.Rotate ? Quaternion.Euler(0, 0, Random.value * 360) : Quaternion.identity);          
+        }
+        startIndex+=safeNumberToCreate;
+        
+    }
+
+    private int NumCellsAvailbile(Vector2Int grid, Vector2 cellSize)
+    {
+      int blockedCells = 0;
+      for (var x = 0; x < grid.x; x++)
+      {
+          for (var y = 0; y < grid.y; y++)
+          {
+            var cell = new Rect(_levelBoundary.min.x + x * cellSize.x, _levelBoundary.min.y + y * cellSize.y, cellSize.x, cellSize.y);
+            
+            if(IsCellBlocked(cell)){
+              blockedCells++;                  
+            }
+          }
+      }
+      return (grid.x * grid.y) - blockedCells;
+    }
+
+
+
+    private int PlaceObjectsInGrid(Vector2Int grid, Vector2 cellSize, GameObject[] objects )
+    {
+        int objIndex = 0;
+        int objectsPositioned = 0;
+        int cellsBlocked = 0;
+        for (var i = 0; i < grid.x; i++)
+        {
+            for (var j = 0; j < grid.y; j++)
+            {
+                var cell = new Rect(_levelBoundary.min.x + i * cellSize.x, _levelBoundary.min.y + j * cellSize.y, cellSize.x, cellSize.y);
+                //Debug.LogFormat("{0},{1} {2} {3} :{4}:",i,j,cell,IsCellBlocked(cell),objects[objIndex]!=null);                
+                if(IsCellBlocked(cell))
+                {
+                  cellsBlocked++;
+                  continue;
+                }
+                if(objects[objIndex]!=null)
+                {
+                  var x = cell.center.x;
+                  var y = cell.center.y;
+                  //Debug.LogFormat("Placing {0} @ {1},{2}",objects[objIndex].name,x,y);
+                  objects[objIndex].transform.position = new Vector3(x,y,0);
+                  objectsPositioned++;
+                }
+                objIndex++;
+            }
+        }
+        //Debug.LogFormat("Cells blocked {0}",cellsBlocked);
+        //Debug.LogFormat("Cells iterated over {0}",objIndex);
+        return objectsPositioned;
+    }
+
+    private void AddJitter(GameObject[] objects, Vector2 jitter)
+    {
+      foreach(var obj in objects){
+        if(obj==null)
+          continue;
+        var xJitter = Random.Range(-jitter.x, jitter.x);
+        var yJitter = Random.Range(-jitter.y, jitter.y);                  
+        obj.transform.position += new Vector3(xJitter,yJitter,0);
+      }
+    }
+
+/*
     private Queue<Rect> GetShuffledCellQueue(Vector2Int grid, Vector2 cellSize)
     {
         var validCells = new List<Rect>();
@@ -131,17 +249,8 @@ public class LevelSetup : MonoBehaviour
             for (var y = 0; y < grid.y; y++)
             {
                 var cell = new Rect(_levelBoundary.min.x + x * cellSize.x, _levelBoundary.min.y + y * cellSize.y, cellSize.x, cellSize.y);
-                var isInDeadZone = false;
-                foreach (var deadZone in _deadZones)
-                {
-                    var bounds = deadZone.bounds;
-                    var rocketBounds = new Rect(bounds.min, bounds.size);
-                    if (rocketBounds.Overlaps(cell))
-                    {
-                        isInDeadZone = true;
-                    }
-                }
-                if (!isInDeadZone)
+                
+                if (!IsCellBlocked(cell))
                 {
                     validCells.Add(cell);
                 }
@@ -150,14 +259,27 @@ public class LevelSetup : MonoBehaviour
         Shuffle(validCells);
         return new Queue<Rect>(validCells);
     }
+*/
+
+    private bool IsCellBlocked(Rect cell)
+    {
+      foreach (var deadZone in _deadZones)
+      {
+          var bounds = deadZone.bounds;
+          var rocketBounds = new Rect(bounds.min, bounds.size);
+          if (rocketBounds.Overlaps(cell))
+          {
+            return true;
+          }
+      }
+      return false;
+    }
 
     void OnDrawGizmosSelected()
     {
         // Display the explosion radius when selected
         Gizmos.color = new Color(1, 1, 0, 0.75F);
         Gizmos.DrawWireCube(_levelBoundary.center,_levelBoundary.size);
-        foreach(var obj in _spawnedObjects){
-          Gizmos.DrawCube(obj.transform.position, 0.1f * Vector3.one);
-        }
+        
     }
 }
